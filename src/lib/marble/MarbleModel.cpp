@@ -69,7 +69,9 @@
 #include "TileCreator.h"
 #include "TileCreatorDialog.h"
 #include "TileLoader.h"
+#ifndef SUBSURFACE
 #include "routing/RoutingManager.h"
+#endif
 #include "BookmarkManager.h"
 #include "ElevationModel.h"
 
@@ -98,7 +100,9 @@ class MarbleModelPrivate
           m_positionTracking( &m_treeModel ),
           m_trackedPlacemark( 0 ),
           m_bookmarkManager( &m_treeModel ),
+#ifndef SUBSURFACE
           m_routingManager( 0 ),
+#endif
           m_legend( 0 ),
           m_workOffline( false ),
           m_elevationModel( 0 )
@@ -158,7 +162,9 @@ class MarbleModelPrivate
     const GeoDataPlacemark  *m_trackedPlacemark;
 
     BookmarkManager          m_bookmarkManager;
+#ifndef SUBSURFACE
     RoutingManager          *m_routingManager;
+#endif
     QTextDocument           *m_legend;
 
     bool                     m_workOffline;
@@ -195,7 +201,9 @@ MarbleModel::MarbleModel( QObject *parent )
     connect( d->m_fileManager, SIGNAL(fileAdded( QString)),
              this, SLOT(assignFillColors( QString)) );
 
+#ifndef SUBSURFACE
     d->m_routingManager = new RoutingManager( this, this );
+#endif
 
     connect(&d->m_clock,   SIGNAL(timeChanged()),
             &d->m_sunLocator, SLOT(update()) );
@@ -672,6 +680,7 @@ void MarbleModel::addDownloadPolicies( const GeoSceneDocument *mapTheme )
     }
 }
 
+#ifndef SUBSURFACE
 RoutingManager* MarbleModel::routingManager()
 {
     return d->m_routingManager;
@@ -681,6 +690,7 @@ const RoutingManager* MarbleModel::routingManager() const
 {
     return d->m_routingManager;
 }
+#endif
 
 void MarbleModel::setClockDateTime( const QDateTime& datetime )
 {

@@ -21,8 +21,10 @@
 #include "GeoDataFolder.h"
 #include "PositionTracking.h"
 #include "SearchRunnerManager.h"
+#ifndef SUBSURFACE
 #include "routing/RoutingManager.h"
 #include "routing/RouteRequest.h"
+#endif
 
 #include <QAbstractListModel>
 #include <QTimer>
@@ -132,8 +134,11 @@ QVector<GeoDataPlacemark> TargetModel::viaPoints() const
         return QVector<GeoDataPlacemark>();
     }
 
+#ifndef SUBSURFACE
     RouteRequest* request = m_marbleModel->routingManager()->routeRequest();
+#endif
     QVector<GeoDataPlacemark> result;
+#ifndef SUBSURFACE
     for ( int i = 0; i < request->size(); ++i ) {
         if ( request->at( i ).longitude() != 0.0 || request->at( i ).latitude() != 0.0 ) {
             GeoDataPlacemark placemark;
@@ -142,6 +147,7 @@ QVector<GeoDataPlacemark> TargetModel::viaPoints() const
             result.push_back( placemark );
         }
     }
+#endif
     return result;
 }
 
@@ -178,6 +184,7 @@ QVariant TargetModel::currentLocationData ( int role ) const
 
 QVariant TargetModel::routeData ( const QVector<GeoDataPlacemark> &via, int index, int role ) const
 {
+#ifndef SUBSURFACE
     RouteRequest* request = m_marbleModel->routingManager()->routeRequest();
     switch( role ) {
     case Qt::DisplayRole: return via.at( index ).name();
@@ -187,7 +194,7 @@ QVariant TargetModel::routeData ( const QVector<GeoDataPlacemark> &via, int inde
         return qVariantFromValue( coordinates );
     }
     }
-
+#endif
     return QVariant();
 }
 
@@ -240,7 +247,9 @@ QVariant TargetModel::data ( const QModelIndex & index, int role ) const
         } else if ( isRoute ) {
             int routeIndex = row - homeOffset;
             Q_ASSERT( routeIndex >= 0 && routeIndex < via.size() );
+#ifndef SUBSURFACE
             return routeData( via, routeIndex, role );
+#endif
         } else {
             int bookmarkIndex = row - homeOffset - via.size();
             if ( bookmarkIndex == 0 ) {

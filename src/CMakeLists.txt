@@ -48,9 +48,9 @@ if(BUILD_MARBLE_APPS)
 endif()
 
 add_subdirectory( lib/marble )
-add_subdirectory( lib/astro )
-add_subdirectory( plugins )
-add_subdirectory( bindings )
+#add_subdirectory( lib/astro )
+#add_subdirectory( plugins )
+#add_subdirectory( bindings )
 
 if( NOT QTONLY AND KDE4_PLASMA_LIBS )   # don't try to build this against kdelibs < 4.2
    add_subdirectory( plasmoid )

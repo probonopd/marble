@@ -81,8 +81,8 @@ set(marblewidget_SRCS
     blendings/BlendingAlgorithms.cpp
     blendings/BlendingFactory.cpp
     blendings/SunLightBlending.cpp
-    DownloadRegion.cpp
-    DownloadRegionDialog.cpp
+    # DownloadRegion.cpp
+    # DownloadRegionDialog.cpp
     LatLonBoxWidget.cpp
     MarbleWidget.cpp
     MarbleAbstractPresenter.cpp
@@ -123,7 +123,7 @@ set(marblewidget_SRCS
     TileCoordsPyramid.cpp
     TileLevelRangeWidget.cpp
     TileLoader.cpp
-    QtMarbleConfigDialog.cpp
+    # QtMarbleConfigDialog.cpp
     ClipPainter.cpp
     DownloadPolicy.cpp
     DownloadQueueSet.cpp
@@ -213,42 +213,42 @@ set(marblewidget_SRCS
 
     TemplateDocument.cpp
 
-    routing/AlternativeRoutesModel.cpp
-    routing/Maneuver.cpp
-    routing/Route.cpp
-    routing/RouteRequest.cpp
-    routing/RouteSegment.cpp
-    routing/RoutingModel.cpp
-    routing/RoutingProfile.cpp
-    routing/RoutingManager.cpp
-    routing/RoutingLayer.cpp
-    routing/RoutingInputWidget.cpp
-    routing/RoutingWidget.cpp
-    routing/RoutingProfilesWidget.cpp
-    routing/RoutingProfilesModel.cpp
-    routing/RoutingProfileSettingsDialog.cpp
-    routing/SpeakersModel.cpp
-    routing/VoiceNavigationModel.cpp
-    routing/instructions/InstructionTransformation.cpp
-    routing/instructions/RoutingInstruction.cpp
-    routing/instructions/RoutingPoint.cpp
-    routing/instructions/RoutingWaypoint.cpp
-    routing/instructions/WaypointParser.cpp
+    #  routing/AlternativeRoutesModel.cpp
+    #  routing/Maneuver.cpp
+    #  routing/Route.cpp
+    #  routing/RouteRequest.cpp
+    #  routing/RouteSegment.cpp
+    #  routing/RoutingModel.cpp
+    #  routing/RoutingProfile.cpp
+    #  routing/RoutingManager.cpp
+    #  routing/RoutingLayer.cpp
+    #  routing/RoutingInputWidget.cpp
+    #  routing/RoutingWidget.cpp
+    #  routing/RoutingProfilesWidget.cpp
+    #  routing/RoutingProfilesModel.cpp
+    #  routing/RoutingProfileSettingsDialog.cpp
+    #  routing/SpeakersModel.cpp
+    #  routing/VoiceNavigationModel.cpp
+    #  routing/instructions/InstructionTransformation.cpp
+    #  routing/instructions/RoutingInstruction.cpp
+    #  routing/instructions/RoutingPoint.cpp
+    #  routing/instructions/RoutingWaypoint.cpp
+    #  routing/instructions/WaypointParser.cpp
 
     ParsingRunnerManager.cpp
     ReverseGeocodingRunnerManager.cpp
-    RoutingRunnerManager.cpp
+    #  RoutingRunnerManager.cpp
     SearchRunnerManager.cpp
 
     AutoNavigation.cpp
 
     SearchRunnerPlugin.cpp
     ReverseGeocodingRunnerPlugin.cpp
-    RoutingRunnerPlugin.cpp
+    #  RoutingRunnerPlugin.cpp
     ParseRunnerPlugin.cpp
     SearchRunner.cpp
     ReverseGeocodingRunner.cpp
-    RoutingRunner.cpp
+    #  RoutingRunner.cpp
     ParsingRunner.cpp
     RunnerTask.cpp
 
@@ -271,16 +271,16 @@ set(marblewidget_SRCS
     kineticmodel.cpp
     NewstuffModel.cpp
     
-    cloudsync/CloudSyncManager.cpp
-    cloudsync/RouteSyncManager.cpp
-    cloudsync/OwncloudSyncBackend.cpp
-    cloudsync/CloudRouteModel.cpp
-    cloudsync/CloudRoutesDialog.cpp
-    cloudsync/RouteItem.cpp
-    cloudsync/RouteItemDelegate.cpp
-    cloudsync/BookmarkSyncManager.cpp
-    cloudsync/MergeItem.cpp
-    cloudsync/ConflictDialog.cpp
+    # cloudsync/CloudSyncManager.cpp
+    # cloudsync/RouteSyncManager.cpp
+    # cloudsync/OwncloudSyncBackend.cpp
+    # cloudsync/CloudRouteModel.cpp
+    # cloudsync/CloudRoutesDialog.cpp
+    # cloudsync/RouteItem.cpp
+    # cloudsync/RouteItemDelegate.cpp
+    # cloudsync/BookmarkSyncManager.cpp
+    # cloudsync/MergeItem.cpp
+    # cloudsync/ConflictDialog.cpp
 )
 
 set (marblewidget_UI
@@ -316,7 +316,7 @@ set (marblewidget_UI
     MapWizard.ui
     MapThemeDownloadDialog.ui
     WebPopupWidget.ui
-    cloudsync/CloudRoutesDialog.ui
+    # cloudsync/CloudRoutesDialog.ui
     MarbleCloudSyncSettingsWidget.ui
     MovieCaptureDialog.ui
 )
@@ -330,7 +330,8 @@ marble_qt4_automoc(${marblewidget_SRCS})
 ADD_LIBRARY(marblewidget SHARED ${marblewidget_SRCS} ${SOURCES_UI_HDRS})
 
 # link with libastro
-TARGET_LINK_LIBRARIES (marblewidget astro)
+#TARGET_LINK_LIBRARIES (marblewidget astro)
+TARGET_LINK_LIBRARIES (marblewidget )
 
 # link with release version of Qt libs
 if( QT4_FOUND )
@@ -440,7 +441,7 @@ install( FILES
     TileCoordsPyramid.h
     TileLevelRangeWidget.h
     TinyWebBrowser.h
-    QtMarbleConfigDialog.h
+    # QtMarbleConfigDialog.h
     global.h
     MarbleColors.h
     MarbleGlobal.h

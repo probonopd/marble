@@ -18,9 +18,11 @@
 #include "SearchRunnerManager.h"
 #include "ReverseGeocodingRunner.h"
 #include "ReverseGeocodingRunnerManager.h"
+#ifndef SUBSURFACE
 #include "RoutingRunner.h"
 #include "RoutingRunnerManager.h"
 #include "routing/RouteRequest.h"
+#endif
 
 #include <QTimer>
 
@@ -64,6 +66,7 @@ void ReverseGeocodingTask::run()
     emit finished( this );
 }
 
+#ifndef SUBSURFACE
 RoutingTask::RoutingTask( RoutingRunner *runner, RoutingRunnerManager *manager, const MarbleModel *model, const RouteRequest* routeRequest ) :
     QObject(),
     m_runner( runner ),
@@ -73,11 +76,13 @@ RoutingTask::RoutingTask( RoutingRunner *runner, RoutingRunnerManager *manager, 
              manager, SLOT(addRoutingResult(GeoDataDocument*)) );
     m_runner->setModel( model );
 }
-
+#endif
 void RoutingTask::run()
 {
+#ifndef SUBSURFACE
     m_runner->retrieveRoute( m_routeRequest );
     m_runner->deleteLater();
+#endif
 
     emit finished( this );
 }

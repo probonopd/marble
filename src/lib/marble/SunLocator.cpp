@@ -22,7 +22,9 @@
  
 #include "MarbleDebug.h"
 
+#ifndef SUBSURFACE
 #include "src/lib/astro/solarsystem.h"
+#endif
 
 #include <cmath>
 // M_PI is sometimes defined in <cmath>
@@ -71,9 +73,13 @@ SunLocator::~SunLocator()
 void SunLocator::updatePosition()
 {
     QString planetId = d->m_planet->id();
+#ifndef SUBSURFACE
     SolarSystem sys;
+#endif
 
     QDateTime dateTime = d->m_clock->dateTime();
+
+#ifndef SUBSURFACE
     sys.setCurrentMJD(
                 dateTime.date().year(), dateTime.date().month(), dateTime.date().day(),
                 dateTime.time().hour(), dateTime.time().minute(),
@@ -85,9 +91,12 @@ void SunLocator::updatePosition()
     double ra = 0.0;
     double decl = 0.0;
     sys.getSun( ra, decl );
+#endif
     double lon = 0.0;
     double lat = 0.0;
+#ifndef SUBSURFACE
     sys.getPlanetographic (ra, decl, lon, lat);
+#endif
     d->m_lon = lon * DEG2RAD;
     d->m_lat = lat * DEG2RAD;
 }

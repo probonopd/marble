@@ -25,7 +25,9 @@
 #include "PositionProviderPlugin.h"
 #include "PluginManager.h"
 #include "PositionTracking.h"
+#ifndef SUBSURFACE
 #include "routing/RoutingManager.h"
+#endif
 
 using namespace Marble;
 /* TRANSLATOR Marble::CurrentLocationWidget */
@@ -106,7 +108,9 @@ void CurrentLocationWidget::setMarbleWidget( MarbleWidget *widget )
     d->m_widget = widget;
 
     d->m_adjustNavigation = new AutoNavigation( widget->model(), widget->viewport(), this );
+#ifndef SUBSURFACE
     d->m_widget->model()->routingManager()->setAutoNavigation( d->m_adjustNavigation );
+#endif
 
     const PluginManager* pluginManager = d->m_widget->model()->pluginManager();
     d->m_positionProviderPlugins = pluginManager->positionProviderPlugins();
