@@ -23,7 +23,9 @@
 #include "MarbleWidgetPopupMenu.h"
 #include "PopupLayer.h"
 #include "RenderPlugin.h"
+#ifndef SUBSURFACE
 #include "RoutingLayer.h"
+#endif
 
 namespace Marble
 {

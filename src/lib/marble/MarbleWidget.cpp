@@ -96,7 +96,9 @@ class MarbleWidgetPrivate : public MarbleAbstractPresenter
           m_widget( parent ),
           m_inputhandler( 0 ),
           m_physics( this ),
+#ifndef SUBSURFACE
           m_routingLayer( 0 ),
+#endif
           m_mapInfoDialog( 0 ),
           m_customPaintLayer( parent ),
           m_popupmenu( 0 ),
@@ -133,7 +135,9 @@ class MarbleWidgetPrivate : public MarbleAbstractPresenter
 
     MarblePhysics    m_physics;
 
+#ifndef SUBSURFACE
     RoutingLayer     *m_routingLayer;
+#endif
     PopupLayer    *m_mapInfoDialog;
     MarbleWidget::CustomPaintLayer m_customPaintLayer;
 
@@ -237,10 +241,12 @@ void MarbleWidgetPrivate::construct()
 
     m_popupmenu = new MarbleWidgetPopupMenu( m_widget, model() );
 
+#ifndef SUBSURFACE
     m_routingLayer = new RoutingLayer( m_widget, m_widget );
     m_routingLayer->setPlacemarkModel( 0 );
     QObject::connect( m_routingLayer, SIGNAL(repaintNeeded(QRect)),
                       m_widget, SLOT(update()) );
+#endif
 
     m_mapInfoDialog = new PopupLayer( m_widget, m_widget );
     m_mapInfoDialog->setVisible( false );
@@ -781,13 +787,17 @@ void MarbleWidget::setMapThemeId( const QString& mapThemeId )
 
 void MarbleWidgetPrivate::updateMapTheme()
 {
+#ifndef SUBSURFACE
     map()->removeLayer( m_routingLayer );
+#endif
 
     m_widget->setRadius( m_widget->radius() ); // Corrects zoom range, if needed
 
+#ifndef SUBSURFACE
     if ( model()->planetId() == "earth" ) {
         map()->addLayer( m_routingLayer );
     }
+#endif
 
     emit m_widget->themeChanged( map()->mapThemeId() );
 
@@ -1044,7 +1054,9 @@ void MarbleWidget::setViewContext( ViewContext viewContext )
     if ( d->map()->viewContext() != viewContext ) {
         const MapQuality oldQuality = d->map()->mapQuality();
         d->map()->setViewContext( viewContext );
+#ifndef SUBSURFACE
         d->m_routingLayer->setViewContext( viewContext );
+#endif
 
         if ( d->map()->mapQuality() != oldQuality )
             update();
@@ -1236,10 +1248,12 @@ qreal MarbleWidget::distanceFromZoom( qreal zoom ) const
     return d->distanceFromZoom(zoom);
 }
 
+#ifndef SUBSURFACE
 RoutingLayer* MarbleWidget::routingLayer()
 {
     return d->m_routingLayer;
 }
+#endif
 
 PopupLayer *MarbleWidget::popupLayer()
 {

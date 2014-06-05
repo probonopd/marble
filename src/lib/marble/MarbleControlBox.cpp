@@ -30,7 +30,9 @@
 #include "FileViewWidget.h"
 #include "LegendWidget.h"
 #include "MapViewWidget.h"
+#ifndef SUBSURFACE
 #include "RoutingWidget.h"
+#endif
 
 // Marble
 #include "MapThemeManager.h"
@@ -62,7 +64,9 @@ class MarbleControlBoxPrivate
 
     FileViewWidget              *m_fileViewWidget;
 
+#ifndef SUBSURFACE
     RoutingWidget  *m_routingWidget;
+#endif
 };
 
 MarbleControlBoxPrivate::MarbleControlBoxPrivate()
@@ -71,8 +75,11 @@ MarbleControlBoxPrivate::MarbleControlBoxPrivate()
       m_legendWidget( 0 ),
       m_mapViewWidget( 0 ),
       m_currentLocationWidget( 0 ),
+      m_fileViewWidget( 0 )
+#ifndef SUBSURFACE
       m_fileViewWidget( 0 ),
       m_routingWidget( 0 )
+#endif
 {
 }
 
@@ -127,11 +134,13 @@ void MarbleControlBox::setMarbleWidget(MarbleWidget *widget)
 {
     d->m_widget = widget;
 
+#ifndef SUBSURFACE
     bool const smallScreen = MarbleGlobal::getInstance()->profiles() & MarbleGlobal::SmallScreen;
     if ( !smallScreen ) {
         d->m_routingWidget = new RoutingWidget( widget, this );
         addItem( d->m_routingWidget, tr( "Routing" ) );
     }
+#endif
 
     d->m_fileViewWidget->setMarbleWidget( widget );
     d->m_legendWidget->setMarbleModel( widget->model() );
@@ -206,12 +215,15 @@ void MarbleControlBox::setCurrentLocationTabShown( bool show )
     }
 }
 
+
 void MarbleControlBox::setRoutingTabShown( bool show )
 {
+#ifndef SUBSURFACE
     if ( d->m_routingWidget ) {
         QString  title = tr( "Routing" );
         setWidgetTabShown( d->m_routingWidget, 5, show, title );
     }
+#endif
 }
 
 void MarbleControlBox::selectTheme( const QString &theme )
@@ -222,10 +234,12 @@ void MarbleControlBox::selectTheme( const QString &theme )
         return;
 
     QString selectedId = d->m_widget->mapTheme()->head()->target();
+#ifndef SUBSURFACE
     if ( d->m_routingWidget ) {
         int routingIndex = indexOf( d->m_routingWidget );
         setItemEnabled( routingIndex, selectedId == "earth" );
     }
+#endif
     int locationIndex = indexOf( d->m_currentLocationWidget );
     if ( locationIndex >= 0 ) {
         setItemEnabled( locationIndex, selectedId == "earth" );

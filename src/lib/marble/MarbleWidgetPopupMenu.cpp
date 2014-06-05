@@ -34,9 +34,11 @@
 #include "MarbleDebug.h"
 #include "PopupLayer.h"
 #include "Planet.h"
+#ifndef SUBSURFACE
 #include "routing/RoutingManager.h"
 #include "routing/RoutingLayer.h"
 #include "routing/RouteRequest.h"
+#endif
 #include "EditBookmarkDialog.h"
 #include "BookmarkManager.h"
 #include "ReverseGeocodingRunnerManager.h"
@@ -114,6 +116,7 @@ MarbleWidgetPopupMenu::Private::Private( MarbleWidget *widget, const MarbleModel
     m_infoDialogAction->setData( 0 );
 
     //	Tool actions (Right mouse button)
+#ifndef SUBSURFACE
     m_directionsFromHereAction = new QAction( tr( "Directions &from here" ), parent );
     m_directionsToHereAction = new QAction( tr( "Directions &to here" ), parent );
     RouteRequest* request = m_widget->model()->routingManager()->routeRequest();
@@ -122,6 +125,7 @@ MarbleWidgetPopupMenu::Private::Private( MarbleWidget *widget, const MarbleModel
         int const lastIndex = qMax( 1, request->size()-1 );
         m_directionsToHereAction->setIcon( QIcon( request->pixmap( lastIndex, 16 ) ) );
     }
+#endif
     QAction* addBookmark = new QAction( QIcon(":/icons/bookmark-new.png"),
                                         tr( "Add &Bookmark" ), parent );
     QAction* fullscreenAction = new QAction( tr( "&Full Screen Mode" ), parent );
@@ -137,9 +141,11 @@ MarbleWidgetPopupMenu::Private::Private( MarbleWidget *widget, const MarbleModel
         m_rmbExtensionPoint = m_rmbMenu.addSeparator();
     }
 
+#ifndef SUBSURFACE
     m_rmbMenu.addAction( m_directionsFromHereAction );
     m_rmbMenu.addAction( m_directionsToHereAction );
     m_rmbMenu.addSeparator();
+#endif
     m_rmbMenu.addAction( addBookmark );
     if ( !smallScreen ) {
         m_rmbMenu.addAction( m_copyCoordinateAction );
@@ -155,8 +161,10 @@ MarbleWidgetPopupMenu::Private::Private( MarbleWidget *widget, const MarbleModel
     }
 
     parent->connect( &m_lmbMenu, SIGNAL(aboutToHide()), SLOT(resetMenu()) );
+#ifndef SUBSURFACE
     parent->connect( m_directionsFromHereAction, SIGNAL(triggered()), SLOT(directionsFromHere()) );
     parent->connect( m_directionsToHereAction, SIGNAL(triggered()), SLOT(directionsToHere()) );
+#endif
     parent->connect( addBookmark, SIGNAL(triggered()), SLOT(addBookmark()) );
     parent->connect( aboutDialogAction, SIGNAL(triggered()), SLOT(slotAboutDialog()) );
     parent->connect( m_copyCoordinateAction, SIGNAL(triggered()), SLOT(slotCopyCoordinates()) );
@@ -444,6 +452,7 @@ void MarbleWidgetPopupMenu::showRmbMenu( int xpos, int ypos )
     QPoint curpos = QPoint( xpos, ypos );
     d->m_copyCoordinateAction->setData( curpos );
 
+#ifndef SUBSURFACE
     bool const showDirectionButtons = d->m_widget->routingLayer() && d->m_widget->routingLayer()->isInteractive();
     d->m_directionsFromHereAction->setVisible( showDirectionButtons );
     d->m_directionsToHereAction->setVisible( showDirectionButtons );
@@ -453,6 +462,7 @@ void MarbleWidgetPopupMenu::showRmbMenu( int xpos, int ypos )
         d->m_directionsToHereAction->setIcon( QIcon( request->pixmap( lastIndex, 16 ) ) );
     }
 
+#endif
     d->m_rmbMenu.popup( d->m_widget->mapToGlobal( curpos ) );
 }
 
@@ -607,6 +617,7 @@ void MarbleWidgetPopupMenu::addAction( Qt::MouseButton button, QAction* action )
     }
 }
 
+#ifndef SUBSURFACE
 void MarbleWidgetPopupMenu::directionsFromHere()
 {
     RouteRequest* request = d->m_widget->model()->routingManager()->routeRequest();
@@ -640,6 +651,10 @@ void MarbleWidgetPopupMenu::directionsToHere()
         }
     }
 }
+#else
+void MarbleWidgetPopupMenu::directionsFromHere() {}
+void MarbleWidgetPopupMenu::directionsToHere() {}
+#endif
 
 GeoDataCoordinates MarbleWidgetPopupMenu::Private::mouseCoordinates( QAction* dataContainer ) const
 {
