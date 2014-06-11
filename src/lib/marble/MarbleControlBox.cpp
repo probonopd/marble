@@ -77,7 +77,7 @@ MarbleControlBoxPrivate::MarbleControlBoxPrivate()
       m_currentLocationWidget( 0 ),
       m_fileViewWidget( 0 )
 #ifndef SUBSURFACE
-      m_fileViewWidget( 0 ),
+	,
       m_routingWidget( 0 )
 #endif
 {

@@ -74,6 +74,7 @@ class MarbleWidgetInputHandlerPrivate
 
         bool layersEventFilter(QObject *o, QEvent *e)
         {   //FIXME - this should go up in hierarchy to MarbleInputHandler
+#ifndef SUBSURFACE
             if (m_marbleWidget->popupLayer()->eventFilter(o, e))
             {
                 return true;
@@ -83,6 +84,7 @@ class MarbleWidgetInputHandlerPrivate
             {
                 return true;
             }
+#endif
 
             return false;
         }
@@ -127,19 +129,23 @@ MarbleWidgetInputHandler::MarbleWidgetInputHandler(MarbleAbstractPresenter *marb
 //FIXME - these should be moved to superclass and popupMenu should be abstracted in MarbleAbstractPresenter
 void MarbleWidgetInputHandler::showLmbMenu(int x, int y)
 {
+#ifndef SUBSURFACE
     if (isMouseButtonPopupEnabled(Qt::LeftButton))
     {
         d->m_marbleWidget->popupMenu()->showLmbMenu(x, y);
         toolTipTimer()->stop();
     }
+#endif
 }
 
 void MarbleWidgetInputHandler::showRmbMenu(int x, int y)
 {
+#ifndef SUBSURFACE
     if (isMouseButtonPopupEnabled(Qt::RightButton))
     {
         d->m_marbleWidget->popupMenu()->showRmbMenu(x, y);
     }
+#endif
 }
 
 void MarbleWidgetInputHandler::openItemToolTip()

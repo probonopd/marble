@@ -67,10 +67,12 @@
 #include "GeoDataDocument.h"
 #include "GeoDataPlacemark.h"
 #include "GeoUriParser.h"
+#ifndef SUBSURFACE
 #include "routing/RoutingManager.h"
 #include "routing/RoutingProfilesModel.h"
 #include "routing/RoutingWidget.h"
 #include "routing/RouteRequest.h"
+#endif
 #include "ParseRunnerPlugin.h"
 #include "PositionTracking.h"
 #include "PositionProviderPlugin.h"
@@ -80,10 +82,12 @@
 #include "GoToDialog.h"
 #include "MarbleWidgetInputHandler.h"
 #include "Planet.h"
+#ifndef SUBSURFACE
 #include "cloudsync/CloudSyncManager.h"
 #include "cloudsync/BookmarkSyncManager.h"
 #include "cloudsync/RouteSyncManager.h"
 #include "MovieCaptureDialog.h"
+#endif
 #include "DataMigration.h"
 
 namespace
@@ -184,6 +188,7 @@ MainWindow::MainWindow(const QString& marbleDataPath, const QVariantMap& cmdLine
     setWindowIcon( QIcon(":/icons/marble.png") );
     setCentralWidget( m_controlView );
 
+#ifndef SUBSURFACE
     // Initializing config dialog
     m_configDialog = new QtMarbleConfigDialog( m_controlView->marbleWidget(),
                                                m_controlView->cloudSyncManager(),
@@ -198,6 +203,7 @@ MainWindow::MainWindow(const QString& marbleDataPath, const QVariantMap& cmdLine
              m_controlView->cloudSyncManager()->bookmarkSyncManager(), SLOT(startBookmarkSync()) );
     connect(m_configDialog, SIGNAL(syncNowClicked()),
             m_configDialog, SLOT(disableSyncNow()));
+#endif
 
     // Load bookmark file. If it does not exist, a default one will be used.
     m_controlView->marbleModel()->bookmarkManager()->loadFile( "bookmarks/bookmarks.kml" );
@@ -226,7 +232,10 @@ MainWindow::MainWindow(const QString& marbleDataPath, const QVariantMap& cmdLine
 
 MainWindow::~MainWindow()
 {
+#ifndef SUBSURFACE
     delete m_movieCaptureDialog;
+#endif
+
 }
 
 void MainWindow::addGeoDataFile( const QString &fileName )
@@ -255,6 +264,7 @@ void MainWindow::initObject(const QVariantMap& cmdLineSettings)
 
 void MainWindow::createActions()
  {
+#ifndef SUBSURFACE
      m_openAction = new QAction( QIcon(":/icons/document-open.png"), tr( "&Open..."), this );
      m_openAction->setShortcut( tr( "Ctrl+O" ) );
      m_openAction->setStatusTip( tr( "Open a file for viewing on Marble"));
@@ -476,6 +486,7 @@ void MainWindow::createActions()
      connect( m_viewSizeActsGroup, SIGNAL(triggered(QAction*)), this, SLOT(changeViewSize(QAction*)) );
 
      actDefault->setChecked( true );
+#endif
 }
 
 void MainWindow::createMenus( const QList<QAction*> &panelActions )
@@ -504,7 +515,9 @@ void MainWindow::createMenus( const QList<QAction*> &panelActions )
         m_viewMenu = menuBar()->addMenu(tr("&View"));
         m_infoBoxesMenu = new QMenu( "&Info Boxes" );
         m_onlineServicesMenu = new QMenu( "&Online Services" );
+#ifndef SUBSURFACE
         createPluginsMenus();
+#endif
 
         m_bookmarkMenu = menuBar()->addMenu(tr("&Bookmarks"));
         createBookmarkMenu();
@@ -536,6 +549,7 @@ void MainWindow::createMenus( const QList<QAction*> &panelActions )
         m_helpMenu->addAction(m_aboutQtAction);
 
         // FIXME: Discuss if this is the best place to put this
+#ifndef SUBSURFACE
         QList<RenderPlugin *> pluginList = m_controlView->marbleWidget()->renderPlugins();
         QList<RenderPlugin *>::const_iterator it = pluginList.constBegin();
         QList<RenderPlugin *>::const_iterator const listEnd = pluginList.constEnd();
@@ -543,10 +557,12 @@ void MainWindow::createMenus( const QList<QAction*> &panelActions )
             connect( (*it), SIGNAL(actionGroupsChanged()),
                      this, SLOT(createPluginMenus()) );
         }
+#endif
 }
 
 void MainWindow::createPluginsMenus()
 {
+#ifndef SUBSURFACE
     m_onlineServicesMenu->clear();
     m_infoBoxesMenu->clear();
     m_viewMenu->clear();
@@ -592,6 +608,7 @@ void MainWindow::createPluginsMenus()
     m_viewMenu->addSeparator();
     m_viewMenu->addAction(m_controlSunAction);
     m_viewMenu->addAction(m_controlTimeAction);
+#endif
 }
 
 void MainWindow::createBookmarksListMenu( QMenu *bookmarksListMenu, const GeoDataContainer *container )
@@ -1187,6 +1204,7 @@ void MainWindow::readSettings(const QVariantMap& overrideSettings)
             const QVariantList lonLat = lonLatIt.value().toList();
             m_controlView->marbleWidget()->centerOn( lonLat.at(0).toDouble(), lonLat.at(1).toDouble() );
          } else {
+#ifndef SUBSURFACE
             switch ( m_configDialog->onStartup() ) {
             case Marble::LastLocationVisited:
                 m_controlView->marbleWidget()->centerOn(
@@ -1203,6 +1221,7 @@ void MainWindow::readSettings(const QVariantMap& overrideSettings)
             default:
                 break;
             }
+#endif
          }
          if (isDistanceOverwritten) {
              m_controlView->marbleWidget()->setDistance(distanceIt.value().toDouble());
@@ -1241,6 +1260,7 @@ void MainWindow::readSettings(const QVariantMap& overrideSettings)
      setUpdatesEnabled(true);
 
      // Load previous route settings
+#ifndef SUBSURFACE
      settings.beginGroup( "Routing" );
      {
          RoutingManager *const routingManager = m_controlView->marbleModel()->routingManager();
@@ -1344,6 +1364,7 @@ void MainWindow::readSettings(const QVariantMap& overrideSettings)
      cloudSyncManager->routeSyncManager()->setRouteSyncEnabled( settings.value( "syncRoutes", true ).toBool() );
      cloudSyncManager->bookmarkSyncManager()->setBookmarkSyncEnabled( settings.value( "syncBookmarks", true ).toBool() );
      settings.endGroup();
+#endif
 }
 
 void MainWindow::writeSettings()
@@ -1404,6 +1425,7 @@ void MainWindow::writeSettings()
          settings.setValue( "speedSlider", m_controlView->marbleModel()->clockSpeed() );
      settings.endGroup();
 
+#ifndef SUBSURFACE
      settings.beginGroup( "Routing Profile" );
      QList<RoutingProfile>  profiles = m_controlView->marbleWidget()
                          ->model()->routingManager()->profilesModel()->profiles();
@@ -1477,6 +1499,7 @@ void MainWindow::writeSettings()
      settings.beginGroup( "Navigation");
      settings.setValue( "externalMapEditor", m_controlView->externalMapEditor() );
      settings.endGroup();
+#endif
 }
 
 void MainWindow::editSettings()
@@ -1491,6 +1514,7 @@ void MainWindow::updateSettings()
 {
     mDebug() << Q_FUNC_INFO << "Updating Settings ...";
 
+#ifndef SUBSURFACE
     // FIXME: Font doesn't get updated instantly.
     m_controlView->marbleWidget()->setDefaultFont( m_configDialog->mapFont() );
 
@@ -1524,12 +1548,14 @@ void MainWindow::updateSettings()
     cloudSyncManager->setSyncEnabled( m_configDialog->syncEnabled() );
     cloudSyncManager->routeSyncManager()->setRouteSyncEnabled( m_configDialog->syncRoutes() );
     cloudSyncManager->bookmarkSyncManager()->setBookmarkSyncEnabled( m_configDialog->syncBookmarks() );
+#endif
 
     m_controlView->marbleWidget()->update();
 }
 
 void MainWindow::showDownloadRegionDialog()
 {
+#ifndef SUBSURFACE
     if ( !m_downloadRegionDialog ) {
         m_downloadRegionDialog = new DownloadRegionDialog( m_controlView->marbleWidget(), m_controlView );
         // it might be tempting to move the connects to DownloadRegionDialog's "accepted" and
@@ -1549,15 +1575,18 @@ void MainWindow::showDownloadRegionDialog()
     m_downloadRegionDialog->show();
     m_downloadRegionDialog->raise();
     m_downloadRegionDialog->activateWindow();
+#endif
 }
 
 void MainWindow::downloadRegion()
 {
+#ifndef SUBSURFACE
     Q_ASSERT( m_downloadRegionDialog );
     QVector<TileCoordsPyramid> const pyramid = m_downloadRegionDialog->region();
     if ( !pyramid.isEmpty() ) {
         m_controlView->marbleWidget()->downloadRegion( pyramid );
     }
+#endif
 }
 
 void MainWindow::printMapScreenShot()
@@ -1578,26 +1607,32 @@ void MainWindow::updateMapEditButtonVisibility( const QString &mapTheme )
 
 void MainWindow::showMovieCaptureDialog()
 {
+#ifndef SUBSURFACE
     if (m_movieCaptureDialog == 0) {
         m_movieCaptureDialog = new MovieCaptureDialog(m_controlView->marbleWidget(),
                                                       m_controlView->marbleWidget());
         connect( m_movieCaptureDialog, SIGNAL(started()), this, SLOT(changeRecordingState()));
     }
     m_movieCaptureDialog->show();
+#endif
 }
 
 void MainWindow::stopRecording()
 {
+#ifndef SUBSURFACE
     if ( m_movieCaptureDialog ) {
         m_movieCaptureDialog->stopRecording();
         changeRecordingState();
     }
+#endif
 }
 
 void MainWindow::changeRecordingState()
 {
+#ifndef SUBSURFACE
     m_recordMovieAction->setEnabled( !m_recordMovieAction->isEnabled() );
     m_stopRecordingAction->setEnabled( !m_stopRecordingAction->isEnabled() );
+#endif
 }
 
 void MainWindow::showMapWizard()

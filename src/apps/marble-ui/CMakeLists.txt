@@ -6,7 +6,7 @@ if(MSVC)
 endif(MSVC)
 
 if(MINGW AND QT4_FOUND)
-   QT4_ADD_RESOURCES2(marble_SRCS marble.qrc)
+	#   QT4_ADD_RESOURCES2(marble_SRCS marble.qrc)
 endif(MINGW AND QT4_FOUND)
 
 qt_add_resources(marble_SRCS marble.qrc)

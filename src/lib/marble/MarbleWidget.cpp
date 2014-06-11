@@ -43,9 +43,11 @@
 #include "MarbleModel.h"
 #include "MarblePhysics.h"
 #include "MarbleWidgetInputHandler.h"
+#ifndef SUBSURFACE
 #include "MarbleWidgetPopupMenu.h"
-#include "Planet.h"
 #include "PopupLayer.h"
+#endif
+#include "Planet.h"
 #include "RenderPlugin.h"
 #include "SunLocator.h"
 #include "TileCreatorDialog.h"
@@ -98,10 +100,12 @@ class MarbleWidgetPrivate : public MarbleAbstractPresenter
           m_physics( this ),
 #ifndef SUBSURFACE
           m_routingLayer( 0 ),
-#endif
           m_mapInfoDialog( 0 ),
+#endif
           m_customPaintLayer( parent ),
+#ifndef SUBSURFACE
           m_popupmenu( 0 ),
+#endif
           m_showFrameRate( false )
     {
     }
@@ -109,9 +113,11 @@ class MarbleWidgetPrivate : public MarbleAbstractPresenter
     ~MarbleWidgetPrivate()
     {
         map()->removeLayer( &m_customPaintLayer );
+#ifndef SUBSURFACE
         map()->removeLayer( m_mapInfoDialog );
         delete m_mapInfoDialog;
         delete m_popupmenu;
+#endif
     }
 
     void  construct();
@@ -137,11 +143,13 @@ class MarbleWidgetPrivate : public MarbleAbstractPresenter
 
 #ifndef SUBSURFACE
     RoutingLayer     *m_routingLayer;
-#endif
     PopupLayer    *m_mapInfoDialog;
+#endif
     MarbleWidget::CustomPaintLayer m_customPaintLayer;
 
+#ifndef SUBSURFACE
     MarbleWidgetPopupMenu *m_popupmenu;
+#endif
 
     bool             m_showFrameRate;
 };
@@ -239,19 +247,19 @@ void MarbleWidgetPrivate::construct()
                        m_widget, SLOT( creatingTilesStart( TileCreator*, const QString&,
                                                            const QString& ) ) );
 
+#ifndef SUBSURFACE
     m_popupmenu = new MarbleWidgetPopupMenu( m_widget, model() );
 
-#ifndef SUBSURFACE
     m_routingLayer = new RoutingLayer( m_widget, m_widget );
     m_routingLayer->setPlacemarkModel( 0 );
     QObject::connect( m_routingLayer, SIGNAL(repaintNeeded(QRect)),
                       m_widget, SLOT(update()) );
-#endif
 
     m_mapInfoDialog = new PopupLayer( m_widget, m_widget );
     m_mapInfoDialog->setVisible( false );
     m_widget->connect( m_mapInfoDialog, SIGNAL(repaintNeeded()), m_widget, SLOT(update()) );
     map()->addLayer( m_mapInfoDialog );
+#endif
 
     setInputHandler();
     m_widget->setMouseTracking( true );
@@ -312,10 +320,12 @@ const ViewportParams* MarbleWidget::viewport() const
     return d->viewport();
 }
 
+#ifndef SUBSURFACE
 MarbleWidgetPopupMenu *MarbleWidget::popupMenu()
 {
     return d->m_popupmenu;
 }
+#endif
 
 
 void MarbleWidget::setInputHandler( MarbleWidgetInputHandler *handler )
@@ -1235,12 +1245,12 @@ RoutingLayer* MarbleWidget::routingLayer()
 {
     return d->m_routingLayer;
 }
-#endif
 
 PopupLayer *MarbleWidget::popupLayer()
 {
     return d->m_mapInfoDialog;
 }
+#endif
 
 }
 
