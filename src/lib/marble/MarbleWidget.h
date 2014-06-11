@@ -56,7 +56,9 @@ class TextureLayer;
 class TileCoordsPyramid;
 class TileCreator;
 class ViewportParams;
+#ifndef SUBSURFACE
 class PopupLayer;
+#endif
 
 /**
  * @short A widget class that displays a view of the earth.
@@ -245,7 +247,9 @@ class MARBLE_EXPORT MarbleWidget : public QWidget
 
     RoutingLayer* routingLayer();
 
+#ifndef SUBSURFACE
     PopupLayer* popupLayer();
+#endif
 
     /**
      * @brief  Get the Projection used for the map

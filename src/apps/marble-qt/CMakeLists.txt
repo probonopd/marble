@@ -7,6 +7,7 @@ if(MSVC)
 endif(MSVC)
 
 if(MINGW AND QT4_FOUND)
+	FIND_PACKAGE(Qt4)
    QT4_ADD_RESOURCES2(marble_SRCS marble.rc)
 endif(MINGW AND QT4_FOUND)
 
@@ -41,7 +42,8 @@ if (QT4_FOUND)
     ${QT_QTMAIN_LIBRARY}
     marbleui
     marblewidget
-    astro)
+    # astro
+    )
 else()
   target_link_libraries (
     marble-qt
@@ -54,7 +56,8 @@ else()
     ${Qt5WebKit_LIBRARIES}
     marbleui
     marblewidget
-    astro)
+    # astro
+    )
 endif()
 
 if(WIN32)

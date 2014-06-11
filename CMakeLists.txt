@@ -7,6 +7,8 @@ SET(CMAKE_COLOR_MAKEFILE ON)
 
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
+SET(CMAKE_BUILD_TYPE RELEASE)
+
 ####################################################
 # Where to look first for cmake modules,
 # before ${CMAKE_ROOT}/Modules/ is checked
@@ -98,6 +100,8 @@ if(QTONLY)
   # add a flag to be able to distinguish between qt
   # and kde mode in the sources
   add_definitions(-DQTONLY)
+  add_definitions(-DQT_NO_PRINTER)
+  add_definitions(-DSUBSURFACE)
 
   # Use M_PI under Windows
   if( WIN32 )

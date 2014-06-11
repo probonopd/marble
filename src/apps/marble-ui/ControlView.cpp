@@ -48,11 +48,13 @@
 #include "PrintOptionsWidget.h"
 #include "ViewportParams.h"
 #include "ViewParams.h"
+#ifndef SUBSURFACE
 #include "routing/Route.h"
 #include "routing/RoutingManager.h"
 #include "routing/RoutingModel.h"
 #include "routing/RouteRequest.h"
 #include "routing/RoutingWidget.h"
+#endif
 #include "ExternalEditorDialog.h"
 #include "CurrentLocationWidget.h"
 #include "SearchWidget.h"
@@ -61,12 +63,14 @@
 #include "FileViewWidget.h"
 #include "LegendWidget.h"
 #include "BookmarkManager.h"
+#ifndef SUBSURFACE
 #include "cloudsync/CloudSyncManager.h"
 #include "cloudsync/BookmarkSyncManager.h"
 #include "cloudsync/RouteSyncManager.h"
 #include "cloudsync/ConflictDialog.h"
 #include "cloudsync/MergeItem.h"
 #include "RenderPlugin.h"
+#endif
 
 namespace Marble
 {
@@ -96,6 +100,7 @@ ControlView::ControlView( QWidget *parent )
     layout->setMargin( 0 );
     setLayout( layout );
 
+#ifndef SUBSURFACE
     m_cloudSyncManager = new CloudSyncManager( this );
     m_cloudSyncManager->routeSyncManager()->setRoutingManager( m_marbleWidget->model()->routingManager() );
     BookmarkSyncManager* bookmarkSyncManager = m_cloudSyncManager->bookmarkSyncManager();
@@ -104,6 +109,7 @@ ControlView::ControlView( QWidget *parent )
     connect( bookmarkSyncManager, SIGNAL(mergeConflict(MergeItem*)), this, SLOT(showConflictDialog(MergeItem*)) );
     connect( bookmarkSyncManager, SIGNAL(syncComplete()), m_conflictDialog, SLOT(stopAutoResolve()) );
     connect( m_conflictDialog, SIGNAL(resolveConflict(MergeItem*)), bookmarkSyncManager, SLOT(resolveConflict(MergeItem*)) );
+#endif
 }
 
 ControlView::~ControlView()
@@ -557,6 +563,7 @@ QList<QAction*> ControlView::setupDockWidgets( QMainWindow *mainWindow )
         return QList<QAction*>() << legendDock->toggleViewAction();
     }
 
+#ifndef SUBSURFACE
     QDockWidget *routingDock = new QDockWidget( tr( "Routing" ), mainWindow );
     routingDock->setObjectName( "routingDock" );
     routingDock->setAllowedAreas( Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea );
@@ -589,6 +596,7 @@ QList<QAction*> ControlView::setupDockWidgets( QMainWindow *mainWindow )
     searchWidget->setToolTip( tr( "Search for cities, addresses, points of interest and more (%1)" ).arg( searchSequence.toString() ) );
     QShortcut* searchShortcut = new QShortcut( mainWindow );
     connect( searchShortcut, SIGNAL(activated()), this, SLOT(showSearch()) );
+#endif
 
     QDockWidget *mapViewDock = new QDockWidget( tr( "Map View" ), this );
     mapViewDock->setObjectName( "mapViewDock" );
@@ -623,6 +631,7 @@ QList<QAction*> ControlView::setupDockWidgets( QMainWindow *mainWindow )
     mainWindow->tabifyDockWidget( mapViewDock, legendDock );
     mapViewDock->raise();
 
+#ifndef SUBSURFACE
     m_annotationDock = new QDockWidget( QObject::tr( "Edit Maps" ) );
     m_annotationDock->setObjectName( "annotateDock" );
     m_annotationDock->hide();
@@ -680,6 +689,7 @@ QList<QAction*> ControlView::setupDockWidgets( QMainWindow *mainWindow )
     m_togglePanelVisibilityAction->setStatusTip(tr("Show or hide all panels."));
     connect(m_togglePanelVisibilityAction, SIGNAL(triggered()), this, SLOT(togglePanelVisibility()));
 
+#endif
     // Include a Separator in the List
     QAction *panelSeparatorAct = new QAction( this );
     panelSeparatorAct->setSeparator( true );
@@ -688,10 +698,11 @@ QList<QAction*> ControlView::setupDockWidgets( QMainWindow *mainWindow )
     QList<QAction*> panelMenuActions;
     panelMenuActions << m_togglePanelVisibilityAction;
     panelMenuActions << panelSeparatorAct;
+#ifndef SUBSURFACE
     foreach( QAction* action, m_panelActions ) {
         panelMenuActions << action;
     }
-
+#endif
     return panelMenuActions;
 }
 
@@ -708,10 +719,12 @@ void ControlView::setWorkOffline( bool offline )
     }
 }
 
+#ifndef SUBSURFACE
 CloudSyncManager *ControlView::cloudSyncManager()
 {
     return m_cloudSyncManager;
 }
+#endif
 
 QString ControlView::externalMapEditor() const
 {
@@ -741,9 +754,11 @@ void ControlView::showSearch()
 
 void ControlView::showConflictDialog( MergeItem *item )
 {
+#ifndef SUBSURFACE
     Q_ASSERT( m_conflictDialog );
     m_conflictDialog->setMergeItem( item );
     m_conflictDialog->open();
+#endif
 }
 
 void ControlView::updateAnnotationDockVisibility()
