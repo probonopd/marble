@@ -27,7 +27,7 @@
 
 #include "geodata_export.h"
 
-#ifdef _WIN32
+#ifdef _WIN32_let_s_not_SUBSURFACE
 #define DUMP_GEONODE_LEAKS 1
 #else
 #define DUMP_GEONODE_LEAKS 0
