@@ -95,6 +95,7 @@ DownloadQueueSet *HttpDownloadManager::Private::findQueues( const QString& hostN
 HttpDownloadManager::HttpDownloadManager( StoragePolicy *policy )
     : d( new Private( policy ) )
 {
+    //MarbleDebug::setEnabled(true);
     d->m_requeueTimer.setInterval( requeueTime );
     connect( &d->m_requeueTimer, SIGNAL(timeout()), this, SLOT(requeue()) );
     connectDefaultQueueSets();
@@ -107,6 +108,7 @@ HttpDownloadManager::~HttpDownloadManager()
 
 void HttpDownloadManager::setDownloadEnabled( const bool enable )
 {
+    mDebug() << "------------------>  setting network" << (enable ? "" : "not") << "accessible";
     d->m_networkAccessManager.setNetworkAccessible( enable ? QNetworkAccessManager::Accessible : QNetworkAccessManager::NotAccessible );
     QList<QPair<DownloadPolicyKey, DownloadQueueSet *> >::iterator pos = d->m_queueSets.begin();
     QList<QPair<DownloadPolicyKey, DownloadQueueSet *> >::iterator const end = d->m_queueSets.end();
@@ -129,15 +131,20 @@ void HttpDownloadManager::addDownloadPolicy( const DownloadPolicy& policy )
 void HttpDownloadManager::addJob( const QUrl& sourceUrl, const QString& destFileName,
                                   const QString &id, const DownloadUsage usage )
 {
-    if ( d->m_networkAccessManager.networkAccessible() == QNetworkAccessManager::NotAccessible )
-        return;
+    if ( d->m_networkAccessManager.networkAccessible() == QNetworkAccessManager::NotAccessible ) {
+	mDebug() << "network not accessible";
+    //    return;
+    }
 
     DownloadQueueSet * const queueSet = d->findQueues( sourceUrl.host(), usage );
     if ( queueSet->canAcceptJob( sourceUrl, destFileName )) {
+	mDebug() << "queing job" << sourceUrl << "into" << destFileName;
         HttpJob * const job = new HttpJob( sourceUrl, destFileName, id, &d->m_networkAccessManager );
         job->setUserAgentPluginId( "QNamNetworkPlugin" );
         job->setDownloadUsage( usage );
         queueSet->addJob( job );
+    } else {
+	mDebug() << "can't queue job" << sourceUrl << "into" << destFileName;
     }
 }
 
