@@ -97,6 +97,7 @@ DownloadQueueSet *HttpDownloadManager::Private::findQueues( const QString& hostN
 HttpDownloadManager::HttpDownloadManager( StoragePolicy *policy )
     : d( new Private( policy ) )
 {
+    //MarbleDebug::setEnabled(true);
     d->m_requeueTimer.setInterval( requeueTime );
     connect( &d->m_requeueTimer, SIGNAL(timeout()), this, SLOT(requeue()) );
     connectDefaultQueueSets();
@@ -109,6 +110,7 @@ HttpDownloadManager::~HttpDownloadManager()
 
 void HttpDownloadManager::setDownloadEnabled( const bool enable )
 {
+    mDebug() << "------------------>  setting network" << (enable ? "" : "not") << "accessible";
     d->m_networkAccessManager.setNetworkAccessible( enable ? QNetworkAccessManager::Accessible : QNetworkAccessManager::NotAccessible );
     d->m_acceptJobs = enable;
     QList<QPair<DownloadPolicyKey, DownloadQueueSet *> >::iterator pos = d->m_queueSets.begin();
@@ -134,16 +136,19 @@ void HttpDownloadManager::addJob( const QUrl& sourceUrl, const QString& destFile
 {
     if ( !d->m_acceptJobs ) {
         mDebug() << Q_FUNC_INFO << "Working offline, not adding job";
-        return;
+    //    return;
     }
 
     DownloadQueueSet * const queueSet = d->findQueues( sourceUrl.host(), usage );
     if ( queueSet->canAcceptJob( sourceUrl, destFileName )) {
+	mDebug() << "queing job" << sourceUrl << "into" << destFileName;
         HttpJob * const job = new HttpJob( sourceUrl, destFileName, id, &d->m_networkAccessManager );
         job->setUserAgentPluginId( "QNamNetworkPlugin" );
         job->setDownloadUsage( usage );
         mDebug() << "adding job " << sourceUrl;
         queueSet->addJob( job );
+    } else {
+	mDebug() << "can't queue job" << sourceUrl << "into" << destFileName;
     }
 }
 
