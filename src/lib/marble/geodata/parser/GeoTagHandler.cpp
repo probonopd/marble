@@ -76,6 +76,10 @@ void GeoTagHandler::unregisterHandler(const GeoParser::QualifiedName& qName)
 
 const GeoTagHandler* GeoTagHandler::recognizes(const GeoParser::QualifiedName& qName)
 {
+    // this gets verbose and shouldn't be needed unless the tag handler
+    // hash doesn't get initialized (happened when trying to build
+    // libmarble as static library
+    // qWarning() << qName.first << qName.second;
     TagHash* hash = tagHandlerHash();
 
     if (!hash->contains(qName))

@@ -131,6 +131,7 @@ void HttpDownloadManager::addDownloadPolicy( const DownloadPolicy& policy )
 void HttpDownloadManager::addJob( const QUrl& sourceUrl, const QString& destFileName,
                                   const QString &id, const DownloadUsage usage )
 {
+    mDebug() << "adding job to load" << sourceUrl;
     if ( d->m_networkAccessManager.networkAccessible() == QNetworkAccessManager::NotAccessible ) {
 	mDebug() << "network not accessible";
     //    return;
