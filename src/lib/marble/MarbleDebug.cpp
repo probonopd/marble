@@ -36,7 +36,9 @@ public:
 QDebug mDebug()
 {
     if ( MarbleDebug::isEnabled() ) {
-        return QDebug( QtDebugMsg );
+        // in order for this to work in a release build, we need to switch it to a qWarning
+        // return QDebug( QtDebugMsg );
+        return qWarning();
     }
     else {
         static QIODevice *device = new NullDevice;
