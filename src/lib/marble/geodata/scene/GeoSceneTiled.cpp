@@ -235,7 +235,7 @@ QString GeoSceneTiled::relativeTileFileName( const TileId &id ) const
             .arg( suffix );
         break;
     }
-
+    mDebug() << Q_FUNC_INFO << relFileName;
     return relFileName;
 }
 
