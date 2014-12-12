@@ -25,6 +25,8 @@
 #include "GeoParser.h"
 #include "GeoSceneHead.h"
 
+#include "MarbleDebug.h"
+
 namespace Marble
 {
 namespace dgml
@@ -40,7 +42,7 @@ GeoNode* DgmlDescriptionTagHandler::parse(GeoParser& parser) const
     GeoStackItem parentItem = parser.parentElement();
     if (parentItem.represents(dgmlTag_Head))
         parentItem.nodeAs<GeoSceneHead>()->setDescription( parser.readElementText().trimmed() );
-
+    mDebug() << parser.readElementText().trimmed();
     return 0;
 }
 
