@@ -102,18 +102,23 @@ void TourPlayback::stopTour()
 
 void TourPlayback::showBalloon( GeoDataPlacemark* placemark )
 {
+#ifndef SUBSURFACE
     GeoDataPoint* point = static_cast<GeoDataPoint*>( placemark->geometry() );
     d->m_widget->popupLayer()->setCoordinates( point->coordinates(), Qt::AlignRight | Qt::AlignVCenter );
     d->m_widget->popupLayer()->setContent( placemark->description(), d->m_baseUrl );
     d->m_widget->popupLayer()->setVisible( true );
     d->m_widget->popupLayer()->setSize( QSizeF( 480, 500 ) );
+#endif // SUBSURFACE
 }
 
 void TourPlayback::hideBalloon()
 {
+#ifndef SUBSURFACE
     if( d->m_widget ){
         d->m_widget->popupLayer()->setVisible( false );
     }
+    d->m_widget->popupLayer()->setVisible( false );
+#endif // SUBSURFACE
 }
 
 bool TourPlayback::isPlaying() const
