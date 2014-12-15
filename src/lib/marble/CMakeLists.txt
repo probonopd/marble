@@ -1,4 +1,4 @@
-PROJECT(marblewidget)
+PROJECT(ssrfmarblewidget)
 
 if (QTONLY)
    cmake_minimum_required(VERSION 2.4.0)
@@ -355,15 +355,15 @@ qt_add_resources(marblewidget_SRCS libmarble.qrc ../../apps/marble-ui/marble.qrc
 qt_wrap_ui(marblewidget_SRCS ${marblewidget_UI})
 marble_qt4_automoc(${marblewidget_SRCS})
 
-ADD_LIBRARY(marblewidget SHARED ${marblewidget_SRCS} ${SOURCES_UI_HDRS})
+ADD_LIBRARY(ssrfmarblewidget SHARED ${marblewidget_SRCS} ${SOURCES_UI_HDRS})
 
 # link with libastro
 #TARGET_LINK_LIBRARIES (marblewidget astro)
-TARGET_LINK_LIBRARIES (marblewidget )
+TARGET_LINK_LIBRARIES (ssrfmarblewidget )
 
 # link with release version of Qt libs
 if( QT4_FOUND )
-  TARGET_LINK_LIBRARIES (marblewidget
+  TARGET_LINK_LIBRARIES (ssrfmarblewidget
     ${QT_QTCORE_LIBRARY}
     ${QT_QTDBUS_LIBRARY}
     ${QT_QTGUI_LIBRARY}
@@ -376,7 +376,7 @@ if( QT4_FOUND )
     ${QT_QTDECLARATIVE_LIBRARY}
   )
 else()
-  TARGET_LINK_LIBRARIES (marblewidget
+  TARGET_LINK_LIBRARIES (ssrfmarblewidget
     ${Qt5Core_LIBRARIES}
     ${Qt5Xml_LIBRARIES}
     ${Qt5Widgets_LIBRARIES}
@@ -408,12 +408,12 @@ if(WIN32)
 endif(WIN32)
 
 
-set_target_properties(marblewidget  PROPERTIES
+set_target_properties(ssrfmarblewidget  PROPERTIES
                                     VERSION ${GENERIC_LIB_VERSION}
                                     SOVERSION ${GENERIC_LIB_SOVERSION}
                                     COMPILE_FLAGS "-DKML_LAZY_IMP")
 # needed for marble_export.h
-set_target_properties(marblewidget PROPERTIES
+set_target_properties(ssrfmarblewidget PROPERTIES
   DEFINE_SYMBOL MAKE_MARBLE_LIB
 )
 
@@ -427,7 +427,7 @@ else(WIN32 AND QTONLY)
 
   else(APPLE AND QTONLY)
     if(QTONLY)
-      install(TARGETS marblewidget LIBRARY DESTINATION ${EXEC_INSTALL_PREFIX}/lib${LIB_SUFFIX})
+      install(TARGETS ssrfmarblewidget LIBRARY DESTINATION ${EXEC_INSTALL_PREFIX}/lib${LIB_SUFFIX})
     else(QTONLY)
         install(TARGETS marblewidget  ${INSTALL_TARGETS_DEFAULT_ARGS})
     endif(QTONLY)
