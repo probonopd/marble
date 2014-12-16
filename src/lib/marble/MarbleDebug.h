@@ -15,6 +15,10 @@
 
 #include "marble_export.h"
 
+#ifdef SUBSURFACE
+#define MARBLE_SUBSURFACE_BRANCH
+#endif
+
 namespace Marble
 {
 
