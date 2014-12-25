@@ -366,7 +366,7 @@ endif( PHONON_FOUND AND NOT QT5BUILD )
 
 if (APPLE)
   #defined in top level makefile
-  TARGET_LINK_LIBRARIES(marblewidget ${MAC_EXTRA_LIBS} )
+  TARGET_LINK_LIBRARIES(ssrfmarblewidget ${MAC_EXTRA_LIBS} )
 endif (APPLE)
 
 if (CMAKE_SYSTEM_NAME MATCHES "SunOS")
@@ -392,7 +392,7 @@ if(WIN32 AND QTONLY)
   install(TARGETS marblewidget RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX})
 else(WIN32 AND QTONLY)
   if(APPLE AND QTONLY)
-    install (TARGETS marblewidget LIBRARY DESTINATION
+    install (TARGETS ssrfmarblewidget LIBRARY DESTINATION
       ${CMAKE_INSTALL_PREFIX}/Marble.app/Contents/MacOS/lib)
 
   else(APPLE AND QTONLY)
