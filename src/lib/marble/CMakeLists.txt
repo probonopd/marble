@@ -374,7 +374,7 @@ if (CMAKE_SYSTEM_NAME MATCHES "SunOS")
 endif (CMAKE_SYSTEM_NAME MATCHES "SunOS")
 
 if(WIN32)
-  TARGET_LINK_LIBRARIES(marblewidget ws2_32 imm32 winmm)
+  TARGET_LINK_LIBRARIES(ssrfmarblewidget ws2_32 imm32 winmm)
 endif(WIN32)
 
 
@@ -389,7 +389,7 @@ set_target_properties(ssrfmarblewidget PROPERTIES
 
 # choose the correct target install library path
 if(WIN32 AND QTONLY)
-  install(TARGETS marblewidget RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX})
+  install(TARGETS ssrfmarblewidget RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX})
 else(WIN32 AND QTONLY)
   if(APPLE AND QTONLY)
     install (TARGETS ssrfmarblewidget LIBRARY DESTINATION
