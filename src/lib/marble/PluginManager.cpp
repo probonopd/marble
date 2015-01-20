@@ -182,7 +182,7 @@ bool appendPlugin( QObject * obj, QPluginLoader* &loader, QList<const T*> &plugi
 
 void PluginManagerPrivate::loadPlugins()
 {
-#ifdef MARBLE_NO_PLUGINS
+#ifdef SUBSURFACE
     return;
 #endif
 
