@@ -245,9 +245,8 @@ else(WIN32)
     SET(MAC_EXTRA_LIBS ${APP_SERVICES_LIBRARY})
     if (QTONLY)
       # for Mac OS X, everything is put inside an application bundle
-      SET (CMAKE_INSTALL_PREFIX ${CMAKE_INSTALL_PREFIX}/)
       # path for library references
-      SET (CMAKE_INSTALL_NAME_DIR @executable_path/lib)
+      SET (CMAKE_INSTALL_NAME_DIR ${CMAKE_INSTALL_PREFIX}/lib)
       # install the Info.plist file
       install(FILES src/mac/Info.plist DESTINATION ${CMAKE_INSTALL_PREFIX}/Marble.app/Contents)
       #SET (lib_dir ${CMAKE_INSTALL_PREFIX}/Marble.app/Contents/MacOS/lib)
