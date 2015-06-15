@@ -229,13 +229,13 @@ MarbleModel::MarbleModel( QObject *parent )
 
 #ifndef SUBSURFACE
     d->m_routingManager = new RoutingManager( this, this );
-#endif
 
     connect(&d->m_clock,   SIGNAL(timeChanged()),
             &d->m_sunLocator, SLOT(update()) );
 
     d->m_pluginManager.addPositionProviderPlugin( new PlacemarkPositionProviderPlugin( this ) );
     d->m_pluginManager.addPositionProviderPlugin( new RouteSimulationPositionProviderPlugin( this ) );
+#endif
 }
 
 MarbleModel::~MarbleModel()

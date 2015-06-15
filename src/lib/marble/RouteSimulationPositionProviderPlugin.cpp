@@ -115,6 +115,7 @@ RouteSimulationPositionProviderPlugin::~RouteSimulationPositionProviderPlugin()
 
 void RouteSimulationPositionProviderPlugin::initialize()
 {
+#ifndef SUBSURFACE
     m_currentIndex = -1;
 
     m_lineString = m_marbleModel->routingManager()->routingModel()->route().path();
@@ -124,6 +125,7 @@ void RouteSimulationPositionProviderPlugin::initialize()
     if ( !m_lineString.isEmpty() ) {
         QTimer::singleShot( 1000.0 / c_frequency, this, SLOT(update()) );
     }
+#endif
 }
 
 bool RouteSimulationPositionProviderPlugin::isInitialized() const
@@ -148,6 +150,7 @@ QDateTime RouteSimulationPositionProviderPlugin::timestamp() const
 
 void RouteSimulationPositionProviderPlugin::update()
 {
+#ifndef SUBSURFACE
     ++m_currentIndex;
 
     if ( m_currentIndex >= 0 && m_currentIndex < m_lineString.size() ) {
@@ -176,6 +179,7 @@ void RouteSimulationPositionProviderPlugin::update()
     }
 
     QTimer::singleShot( 1000.0 / c_frequency, this, SLOT(update()) );
+#endif
 }
 
 } // namespace Marble

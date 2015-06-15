@@ -111,7 +111,6 @@ void CurrentLocationWidget::setMarbleWidget( MarbleWidget *widget )
     delete d->m_adjustNavigation;
 #ifndef SUBSURFACE
     d->m_adjustNavigation = new AutoNavigation( widget->model(), widget->viewport(), this );
-#endif
 
     const PluginManager* pluginManager = d->m_widget->model()->pluginManager();
     d->m_positionProviderPlugins = pluginManager->positionProviderPlugins();
@@ -194,6 +193,7 @@ void CurrentLocationWidget::setMarbleWidget( MarbleWidget *widget )
              this, SLOT(clearTrack()));
     connect( d->m_widget->model(), SIGNAL(trackedPlacemarkChanged(const GeoDataPlacemark*)),
              this, SLOT(trackPlacemark()) );
+#endif
 }
 
 void CurrentLocationWidgetPrivate::adjustPositionTrackingStatus( PositionProviderStatus status )
@@ -247,14 +247,17 @@ void CurrentLocationWidgetPrivate::updateActivePositionProvider( PositionProvide
 
 void CurrentLocationWidgetPrivate::updateGuidanceMode()
 {
+#ifndef SUBSURFACE
     const bool enabled = m_widget->model()->routingManager()->guidanceModeEnabled();
 
     m_adjustNavigation->setAutoZoom( enabled );
     m_adjustNavigation->setRecenter( enabled ? AutoNavigation::RecenterOnBorder : AutoNavigation::DontRecenter );
+#endif
 }
 
 void CurrentLocationWidgetPrivate::receiveGpsCoordinates( const GeoDataCoordinates &position, qreal speed )
 {
+#ifndef SUBSURFACE
     m_currentPosition = position;
     QString unitString;
     QString altitudeUnitString;
@@ -318,10 +321,12 @@ void CurrentLocationWidgetPrivate::receiveGpsCoordinates( const GeoDataCoordinat
     m_currentLocationUi.showTrackCheckBox->setEnabled( true );
     m_currentLocationUi.saveTrackButton->setEnabled( true );
     m_currentLocationUi.clearTrackButton->setEnabled( true );
+#endif
 }
 
 void CurrentLocationWidgetPrivate::changePositionProvider( const QString &provider )
 {
+#ifndef SUBSURFACE
     foreach( const PositionProviderPlugin* plugin, m_positionProviderPlugins ) {
         if ( plugin->guiString() == provider ) {
             m_currentLocationUi.locationLabel->setEnabled( true );
@@ -337,6 +342,7 @@ void CurrentLocationWidgetPrivate::changePositionProvider( const QString &provid
     m_currentLocationUi.locationLabel->setEnabled( false );
     m_widget->model()->positionTracking()->setPositionProviderPlugin( 0 );
     m_widget->update();
+#endif
 }
 
 void CurrentLocationWidgetPrivate::trackPlacemark()

@@ -210,7 +210,11 @@ QWidget * DownloadRegionDialog::Private::createOkCancelButtonBox()
 
 bool DownloadRegionDialog::Private::hasRoute() const
 {
+#ifndef SUBSURFACE
     return !m_routingModel->route().path().isEmpty();
+#else
+    return false;
+#endif
 }
 
 bool DownloadRegionDialog::Private::hasTextureLayer() const
@@ -327,6 +331,7 @@ QVector<TileCoordsPyramid> DownloadRegionDialog::region() const
     case SpecifiedRegionMethod:
         downloadRegion = GeoDataLatLonAltBox( d->m_latLonBoxWidget->latLonBox(), 0, 0 );
         break;
+#ifndef SUBSURFACE
    case RouteDownloadMethod:
         qreal offset = d->m_routeOffsetSpinBox->value();
         if( d->m_routeOffsetSpinBox->suffix() == " km") {
@@ -335,6 +340,7 @@ QVector<TileCoordsPyramid> DownloadRegionDialog::region() const
         const GeoDataLineString waypoints = d->m_model->routingManager()->routingModel()->route().path();
         return d->m_downloadRegion.fromPath( d->m_textureLayer, offset, waypoints );
         break;
+#endif
     }
 
     return d->m_downloadRegion.region( d->m_textureLayer, downloadRegion );
