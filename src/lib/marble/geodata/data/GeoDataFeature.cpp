@@ -413,9 +413,6 @@ void GeoDataFeaturePrivate::initializeDefaultStyles()
     s_defaultStyle[GeoDataFeature::ReligionJewish]           = GeoDataFeaturePrivate::createOsmPOIStyle( osmFont, "place_of_worship_jewish3.p.16" );
     s_defaultStyle[GeoDataFeature::ReligionShinto]           = GeoDataFeaturePrivate::createOsmPOIStyle( osmFont, "place_of_worship_shinto3.p.16" );
     s_defaultStyle[GeoDataFeature::ReligionSikh]             = GeoDataFeaturePrivate::createOsmPOIStyle( osmFont, "place_of_worship_sikh3.p.16" );
-    
-#endif
-
     s_defaultStyle[GeoDataFeature::HighwaySteps]             = GeoDataFeaturePrivate::createStyle( 1, 5, "#F98072", "#F98072", true, true,
                                                                                    Qt::SolidPattern, Qt::CustomDashLine, Qt::FlatCap, 
                                                                                    false, QVector< qreal >() << 0.2 << 0.2 );
@@ -480,6 +477,8 @@ void GeoDataFeaturePrivate::initializeDefaultStyles()
     s_defaultStyle[GeoDataFeature::Satellite]
         = new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/satellite.png" ) ),
               QFont( defaultFamily, defaultSize, 50, false ), s_defaultLabelColor );
+
+#endif
 
     s_defaultStyleInitialized = true;
     s_defaultFont = QFont("Sans Serif");
