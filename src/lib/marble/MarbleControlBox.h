@@ -37,7 +37,9 @@ namespace Marble
 
 class MarbleWidget;
 class MarbleControlBoxPrivate;
+#ifndef SUBSURFACE
 class AutoNavigation;
+#endif
 class CurrentLocationWidget;
 
 /**

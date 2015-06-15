@@ -16,7 +16,9 @@
 #include <QApplication>
 
 #include "TourItemDelegate.h"
+#ifndef SUBSURFACE
 #include "MarblePlacemarkModel.h"
+#endif
 #include "geodata/data/GeoDataObject.h"
 #include "geodata/data/GeoDataTourControl.h"
 #include "geodata/data/GeoDataWait.h"
@@ -29,7 +31,9 @@
 #include "WaitEditWidget.h"
 #include "RemoveItemEditWidget.h"
 #include "GeoDataTypes.h"
+#ifndef SUBSURFACE
 #include "EditPlacemarkDialog.h"
+#endif
 #include "MarbleWidget.h"
 #include "GeoDataPlaylist.h"
 
@@ -72,6 +76,7 @@ void TourItemDelegate::paint( QPainter *painter, const QStyleOptionViewItem &opt
 
     QRect const iconRect = position( GeoDataElementIcon, option );
 
+#ifndef SUBSURFACE
     GeoDataObject *object = qvariant_cast<GeoDataObject*>(index.data( MarblePlacemarkModel::ObjectPointerRole ) );
     if ( object->nodeType() == GeoDataTypes::GeoDataTourControlType && !m_editingIndices.contains( index ) ) {
         GeoDataTourControl *tourControl = static_cast<GeoDataTourControl*> ( object );
@@ -192,6 +197,7 @@ void TourItemDelegate::paint( QPainter *painter, const QStyleOptionViewItem &opt
         painter->drawPixmap( iconRect, icon.pixmap( iconRect.size() ) );
     }
     QApplication::style()->drawControl( QStyle::CE_PushButton, &button, painter );
+#endif
 }
 
 QRect TourItemDelegate::position( Element element, const QStyleOptionViewItem &option )
@@ -295,6 +301,7 @@ QSize TourItemDelegate::sizeHint(const QStyleOptionViewItem &option, const QMode
 QWidget* TourItemDelegate::createEditor(QWidget* parent, const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
     Q_UNUSED( option );
+#ifndef SUBSURFACE
     GeoDataObject *object = qvariant_cast<GeoDataObject*>(index.data( MarblePlacemarkModel::ObjectPointerRole ) );
     if ( object->nodeType() == GeoDataTypes::GeoDataFlyToType ) {
         FlyToEditWidget* widget = new FlyToEditWidget(index, m_widget, parent);
@@ -337,6 +344,7 @@ QWidget* TourItemDelegate::createEditor(QWidget* parent, const QStyleOptionViewI
 
     }
     return 0;
+#endif
 }
 
 bool TourItemDelegate::editable() const
@@ -379,7 +387,7 @@ bool TourItemDelegate::editAnimatedUpdate(GeoDataAnimatedUpdate *animatedUpdate,
     }
 
     QStringList ids;
-
+#ifndef SUBSURFACE
     GeoDataPlacemark *placemark = static_cast<GeoDataPlacemark*>( feature );
 
     if( !create ) {
@@ -420,6 +428,9 @@ bool TourItemDelegate::editAnimatedUpdate(GeoDataAnimatedUpdate *animatedUpdate,
         placemark->setId("");
     }
     return status;
+#else
+    return false;
+#endif
 }
 
 QString TourItemDelegate::defaultFeatureId() const
@@ -486,6 +497,7 @@ void TourItemDelegate::setDefaultFeatureId(const QString &id)
 bool TourItemDelegate::editorEvent( QEvent* event, QAbstractItemModel* model, const QStyleOptionViewItem& option, const QModelIndex& index )
 {
     Q_UNUSED( model );
+#ifndef SUBSURFACE
     if ( ( event->type() == QEvent::MouseButtonRelease ) && editable() ) {
         QMouseEvent *mouseEvent = static_cast<QMouseEvent*>( event );
         QRect editRect = position( EditButton, option );
@@ -517,6 +529,7 @@ bool TourItemDelegate::editorEvent( QEvent* event, QAbstractItemModel* model, co
             return true;
         }
     }
+#endif
     return false;
 }
 

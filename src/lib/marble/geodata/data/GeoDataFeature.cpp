@@ -59,16 +59,16 @@ GeoDataFeature::GeoDataFeature( const QString& name )
     d->m_name = name;
 }
 
-GeoDataFeature::GeoDataFeature( GeoDataFeaturePrivate *priv ) 
+GeoDataFeature::GeoDataFeature( GeoDataFeaturePrivate *priv )
     : d( priv )
 {
     d->ref.ref();
 }
-    
+
 GeoDataFeature::~GeoDataFeature()
 {
     if (!d->ref.deref()) {
-        delete d;
+	delete d;
     }
 }
 
@@ -80,74 +80,74 @@ GeoDataFeaturePrivate* GeoDataFeature::p() const
 GeoDataFeature& GeoDataFeature::operator=( const GeoDataFeature& other )
 {
     if (!d->ref.deref()) {
-        delete d;
+	delete d;
     }
 
     d = other.d;
     d->ref.ref();
-    
+
     return *this;
 }
 
 bool GeoDataFeature::equals( const GeoDataFeature &other ) const
 {
     if ( !GeoDataObject::equals(other) ||
-         p()->m_name != other.p()->m_name ||
-         p()->m_snippet != other.p()->m_snippet ||
-         p()->m_description != other.p()->m_description ||
-         p()->m_descriptionCDATA != other.p()->m_descriptionCDATA ||
-         p()->m_address != other.p()->m_address ||
-         p()->m_phoneNumber != other.p()->m_phoneNumber ||
-         p()->m_styleUrl != other.p()->m_styleUrl ||
-         p()->m_popularity != other.p()->m_popularity ||
-         p()->m_zoomLevel != other.p()->m_zoomLevel ||
-         p()->m_visible != other.p()->m_visible ||
-         p()->m_role != other.p()->m_role ||
-         p()->m_extendedData != other.p()->m_extendedData ||
-         p()->m_timeSpan != other.p()->m_timeSpan ||
-         p()->m_timeStamp != other.p()->m_timeStamp ||
-         p()->m_region != other.p()->m_region ||
-         *style() != *other.style() ) {
-        return false;
+	 p()->m_name != other.p()->m_name ||
+	 p()->m_snippet != other.p()->m_snippet ||
+	 p()->m_description != other.p()->m_description ||
+	 p()->m_descriptionCDATA != other.p()->m_descriptionCDATA ||
+	 p()->m_address != other.p()->m_address ||
+	 p()->m_phoneNumber != other.p()->m_phoneNumber ||
+	 p()->m_styleUrl != other.p()->m_styleUrl ||
+	 p()->m_popularity != other.p()->m_popularity ||
+	 p()->m_zoomLevel != other.p()->m_zoomLevel ||
+	 p()->m_visible != other.p()->m_visible ||
+	 p()->m_role != other.p()->m_role ||
+	 p()->m_extendedData != other.p()->m_extendedData ||
+	 p()->m_timeSpan != other.p()->m_timeSpan ||
+	 p()->m_timeStamp != other.p()->m_timeStamp ||
+	 p()->m_region != other.p()->m_region ||
+	 *style() != *other.style() ) {
+	return false;
     }
 
     if ( (!p()->m_styleMap && other.p()->m_styleMap) ||
-         (p()->m_styleMap && !other.p()->m_styleMap) ) {
-        return false;
+	 (p()->m_styleMap && !other.p()->m_styleMap) ) {
+	return false;
     }
 
     if ( (p()->m_styleMap && other.p()->m_styleMap) &&
-         (*p()->m_styleMap != *other.p()->m_styleMap) ) {
-        return false;
+	 (*p()->m_styleMap != *other.p()->m_styleMap) ) {
+	return false;
     }
 
     if ( !p()->m_abstractView && !other.p()->m_abstractView ) {
-        return true;
+	return true;
     } else if ( (!p()->m_abstractView && other.p()->m_abstractView) ||
-                (p()->m_abstractView && !other.p()->m_abstractView) ) {
-        return false;
+		(p()->m_abstractView && !other.p()->m_abstractView) ) {
+	return false;
     }
 
     if ( p()->m_abstractView->nodeType() != other.p()->m_abstractView->nodeType() ) {
-        return false;
+	return false;
     }
 
     if ( p()->m_abstractView->nodeType() == GeoDataTypes::GeoDataCameraType ) {
-        GeoDataCamera *thisCam = dynamic_cast<GeoDataCamera*>( p()->m_abstractView );
-        GeoDataCamera *otherCam = dynamic_cast<GeoDataCamera*>( other.p()->m_abstractView );
-        Q_ASSERT(thisCam && otherCam);
+	GeoDataCamera *thisCam = dynamic_cast<GeoDataCamera*>( p()->m_abstractView );
+	GeoDataCamera *otherCam = dynamic_cast<GeoDataCamera*>( other.p()->m_abstractView );
+	Q_ASSERT(thisCam && otherCam);
 
-        if ( *thisCam != *otherCam ) {
-            return false;
-        }
+	if ( *thisCam != *otherCam ) {
+	    return false;
+	}
     } else if ( p()->m_abstractView->nodeType() == GeoDataTypes::GeoDataLookAtType ) {
-        GeoDataLookAt *thisLookAt = dynamic_cast<GeoDataLookAt*>( p()->m_abstractView );
-        GeoDataLookAt *otherLookAt = dynamic_cast<GeoDataLookAt*>( other.p()->m_abstractView );
-        Q_ASSERT(thisLookAt && otherLookAt);
+	GeoDataLookAt *thisLookAt = dynamic_cast<GeoDataLookAt*>( p()->m_abstractView );
+	GeoDataLookAt *otherLookAt = dynamic_cast<GeoDataLookAt*>( other.p()->m_abstractView );
+	Q_ASSERT(thisLookAt && otherLookAt);
 
-        if ( *thisLookAt != *otherLookAt ) {
-            return false;
-        }
+	if ( *thisLookAt != *otherLookAt ) {
+	    return false;
+	}
     }
 
     return true;
@@ -178,185 +178,185 @@ void GeoDataFeaturePrivate::initializeDefaultStyles()
 #endif
 
     s_defaultStyle[GeoDataFeature::None]
-        = new GeoDataStyle( QImage(),
-              QFont( defaultFamily, defaultSize, 50, false ), s_defaultLabelColor );
+	= new GeoDataStyle( QImage(),
+	      QFont( defaultFamily, defaultSize, 50, false ), s_defaultLabelColor );
 
     s_defaultStyle[GeoDataFeature::Default]
-        = new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/default_location.png" ) ),
-              QFont( defaultFamily, defaultSize, 50, false ), s_defaultLabelColor );
+	= new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/default_location.png" ) ),
+	      QFont( defaultFamily, defaultSize, 50, false ), s_defaultLabelColor );
 
     s_defaultStyle[GeoDataFeature::Unknown]
-        = new GeoDataStyle( QImage(),
-              QFont( defaultFamily, defaultSize, 50, false ), s_defaultLabelColor );
+	= new GeoDataStyle( QImage(),
+	      QFont( defaultFamily, defaultSize, 50, false ), s_defaultLabelColor );
 
     s_defaultStyle[GeoDataFeature::SmallCity]
-        = new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/city_4_white.png" ) ),
-              QFont( defaultFamily, defaultSize, 50, false ), s_defaultLabelColor );
+	= new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/city_4_white.png" ) ),
+	      QFont( defaultFamily, defaultSize, 50, false ), s_defaultLabelColor );
 
     s_defaultStyle[GeoDataFeature::SmallCountyCapital]
-        = new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/city_4_yellow.png" ) ),
-              QFont( defaultFamily, defaultSize, 50, false ), s_defaultLabelColor );
+	= new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/city_4_yellow.png" ) ),
+	      QFont( defaultFamily, defaultSize, 50, false ), s_defaultLabelColor );
 
     s_defaultStyle[GeoDataFeature::SmallStateCapital]
-        = new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/city_4_orange.png" ) ),
-              QFont( defaultFamily, defaultSize, 50, true  ), s_defaultLabelColor );
+	= new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/city_4_orange.png" ) ),
+	      QFont( defaultFamily, defaultSize, 50, true  ), s_defaultLabelColor );
 
     s_defaultStyle[GeoDataFeature::SmallNationCapital]
-        = new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/city_4_red.png" ) ),
-              QFont( defaultFamily, defaultSize, 50, false ), s_defaultLabelColor );
+	= new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/city_4_red.png" ) ),
+	      QFont( defaultFamily, defaultSize, 50, false ), s_defaultLabelColor );
 
     s_defaultStyle[GeoDataFeature::MediumCity]
-        = new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/city_3_white.png" ) ),
-              QFont( defaultFamily, defaultSize, 50, false ), s_defaultLabelColor );
+	= new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/city_3_white.png" ) ),
+	      QFont( defaultFamily, defaultSize, 50, false ), s_defaultLabelColor );
 
     s_defaultStyle[GeoDataFeature::MediumCountyCapital]
-        = new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/city_3_yellow.png" ) ),
-              QFont( defaultFamily, defaultSize, 50, false ), s_defaultLabelColor );
+	= new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/city_3_yellow.png" ) ),
+	      QFont( defaultFamily, defaultSize, 50, false ), s_defaultLabelColor );
 
     s_defaultStyle[GeoDataFeature::MediumStateCapital]
-        = new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/city_3_orange.png" ) ),
-              QFont( defaultFamily, defaultSize, 50, true  ), s_defaultLabelColor );
+	= new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/city_3_orange.png" ) ),
+	      QFont( defaultFamily, defaultSize, 50, true  ), s_defaultLabelColor );
 
     s_defaultStyle[GeoDataFeature::MediumNationCapital]
-        = new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/city_3_red.png" ) ),
-              QFont( defaultFamily, defaultSize, 50, false ), s_defaultLabelColor );
+	= new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/city_3_red.png" ) ),
+	      QFont( defaultFamily, defaultSize, 50, false ), s_defaultLabelColor );
 
     s_defaultStyle[GeoDataFeature::BigCity]
-        = new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/city_2_white.png" ) ),
-              QFont( defaultFamily, defaultSize, 50, false ), s_defaultLabelColor );
+	= new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/city_2_white.png" ) ),
+	      QFont( defaultFamily, defaultSize, 50, false ), s_defaultLabelColor );
 
     s_defaultStyle[GeoDataFeature::BigCountyCapital]
-        = new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/city_2_yellow.png" ) ),
-              QFont( defaultFamily, defaultSize, 50, false ), s_defaultLabelColor );
+	= new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/city_2_yellow.png" ) ),
+	      QFont( defaultFamily, defaultSize, 50, false ), s_defaultLabelColor );
 
     s_defaultStyle[GeoDataFeature::BigStateCapital]
-        = new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/city_2_orange.png" ) ),
-              QFont( defaultFamily, defaultSize, 50, true  ), s_defaultLabelColor );
+	= new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/city_2_orange.png" ) ),
+	      QFont( defaultFamily, defaultSize, 50, true  ), s_defaultLabelColor );
 
     s_defaultStyle[GeoDataFeature::BigNationCapital]
-        = new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/city_2_red.png" ) ),
-              QFont( defaultFamily, defaultSize, 50, false ), s_defaultLabelColor );
+	= new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/city_2_red.png" ) ),
+	      QFont( defaultFamily, defaultSize, 50, false ), s_defaultLabelColor );
 
     s_defaultStyle[GeoDataFeature::LargeCity]
-        = new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/city_1_white.png" ) ),
-              QFont( defaultFamily, defaultSize, 75, false ), s_defaultLabelColor );
+	= new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/city_1_white.png" ) ),
+	      QFont( defaultFamily, defaultSize, 75, false ), s_defaultLabelColor );
 
     s_defaultStyle[GeoDataFeature::LargeCountyCapital]
-        = new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/city_1_yellow.png" ) ),
-              QFont( defaultFamily, defaultSize, 75, false ), s_defaultLabelColor );
+	= new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/city_1_yellow.png" ) ),
+	      QFont( defaultFamily, defaultSize, 75, false ), s_defaultLabelColor );
 
     s_defaultStyle[GeoDataFeature::LargeStateCapital]
-        = new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/city_1_orange.png" ) ),
-              QFont( defaultFamily, defaultSize, 75, true  ), s_defaultLabelColor );
+	= new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/city_1_orange.png" ) ),
+	      QFont( defaultFamily, defaultSize, 75, true  ), s_defaultLabelColor );
 
     s_defaultStyle[GeoDataFeature::LargeNationCapital]
-        = new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/city_1_red.png" ) ),
-              QFont( defaultFamily, defaultSize, 75, false ), s_defaultLabelColor );
+	= new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/city_1_red.png" ) ),
+	      QFont( defaultFamily, defaultSize, 75, false ), s_defaultLabelColor );
 
     s_defaultStyle[GeoDataFeature::Nation]
-        = new GeoDataStyle( QImage(),
-              QFont( defaultFamily, (int)(defaultSize * 1.2 ), 75, false ), QColor( "#404040" ) );
+	= new GeoDataStyle( QImage(),
+	      QFont( defaultFamily, (int)(defaultSize * 1.2 ), 75, false ), QColor( "#404040" ) );
     // Align area labels centered
     s_defaultStyle[GeoDataFeature::Nation]->labelStyle().setAlignment( GeoDataLabelStyle::Center );
 
     s_defaultStyle[GeoDataFeature::Mountain]
-        = new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/mountain_1.png" ) ),
-              QFont( defaultFamily, (int)(defaultSize * 0.9 ), 50, false ), s_defaultLabelColor );
+	= new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/mountain_1.png" ) ),
+	      QFont( defaultFamily, (int)(defaultSize * 0.9 ), 50, false ), s_defaultLabelColor );
 
     s_defaultStyle[GeoDataFeature::Volcano]
-        = new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/volcano_1.png" ) ),
-              QFont( defaultFamily, (int)(defaultSize * 0.9 ), 50, false ), s_defaultLabelColor );
+	= new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/volcano_1.png" ) ),
+	      QFont( defaultFamily, (int)(defaultSize * 0.9 ), 50, false ), s_defaultLabelColor );
 
     s_defaultStyle[GeoDataFeature::Mons]
-        = new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/mountain_1.png" ) ),
-              QFont( defaultFamily, (int)(defaultSize * 0.9 ), 50, false ), s_defaultLabelColor );
+	= new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/mountain_1.png" ) ),
+	      QFont( defaultFamily, (int)(defaultSize * 0.9 ), 50, false ), s_defaultLabelColor );
 
     s_defaultStyle[GeoDataFeature::Valley]
-        = new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/valley.png" ) ),
-              QFont( defaultFamily, (int)(defaultSize * 0.9 ), 50, false ), s_defaultLabelColor );
+	= new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/valley.png" ) ),
+	      QFont( defaultFamily, (int)(defaultSize * 0.9 ), 50, false ), s_defaultLabelColor );
 
     s_defaultStyle[GeoDataFeature::Continent]
-        = new GeoDataStyle( QImage(),
-              QFont( defaultFamily, (int)(defaultSize * 1.7 ), 50, false ), QColor( "#bf0303" ) );
+	= new GeoDataStyle( QImage(),
+	      QFont( defaultFamily, (int)(defaultSize * 1.7 ), 50, false ), QColor( "#bf0303" ) );
     // Align area labels centered
     s_defaultStyle[GeoDataFeature::Continent]->labelStyle().setAlignment( GeoDataLabelStyle::Center );
 
     s_defaultStyle[GeoDataFeature::Ocean]
-        = new GeoDataStyle( QImage(),
-              QFont( defaultFamily, (int)(defaultSize * 1.7 ), 50, true ), QColor( "#2c72c7" ) );
+	= new GeoDataStyle( QImage(),
+	      QFont( defaultFamily, (int)(defaultSize * 1.7 ), 50, true ), QColor( "#2c72c7" ) );
     // Align area labels centered
     s_defaultStyle[GeoDataFeature::Ocean]->labelStyle().setAlignment( GeoDataLabelStyle::Center );
 
     s_defaultStyle[GeoDataFeature::OtherTerrain]
-        = new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/other.png" ) ),
-              QFont( defaultFamily, (int)(defaultSize * 0.9 ), 50, false ), s_defaultLabelColor );
+	= new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/other.png" ) ),
+	      QFont( defaultFamily, (int)(defaultSize * 0.9 ), 50, false ), s_defaultLabelColor );
 
     s_defaultStyle[GeoDataFeature::Crater]
-        = new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/crater.png" ) ),
-              QFont( defaultFamily, (int)(defaultSize * 0.9 ), 50, false ), s_defaultLabelColor );
+	= new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/crater.png" ) ),
+	      QFont( defaultFamily, (int)(defaultSize * 0.9 ), 50, false ), s_defaultLabelColor );
 
     s_defaultStyle[GeoDataFeature::Mare]
-        = new GeoDataStyle( QImage(),
-              QFont( defaultFamily, (int)(defaultSize * 1.7 ), 50, false ), QColor( "#bf0303" ) );
+	= new GeoDataStyle( QImage(),
+	      QFont( defaultFamily, (int)(defaultSize * 1.7 ), 50, false ), QColor( "#bf0303" ) );
     // Align area labels centered
     s_defaultStyle[GeoDataFeature::Mare]->labelStyle().setAlignment( GeoDataLabelStyle::Center );
 
     s_defaultStyle[GeoDataFeature::GeographicPole]
-        = new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/pole_1.png" ) ),
-              QFont( defaultFamily, defaultSize, 50, false ), s_defaultLabelColor );
+	= new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/pole_1.png" ) ),
+	      QFont( defaultFamily, defaultSize, 50, false ), s_defaultLabelColor );
 
     s_defaultStyle[GeoDataFeature::MagneticPole]
-        = new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/pole_2.png" ) ),
-              QFont( defaultFamily, defaultSize, 50, false ), s_defaultLabelColor );
+	= new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/pole_2.png" ) ),
+	      QFont( defaultFamily, defaultSize, 50, false ), s_defaultLabelColor );
 
     s_defaultStyle[GeoDataFeature::ShipWreck]
-        = new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/shipwreck.png" ) ),
-              QFont( defaultFamily, (int)(defaultSize * 0.8 ), 50, false ), s_defaultLabelColor );
+	= new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/shipwreck.png" ) ),
+	      QFont( defaultFamily, (int)(defaultSize * 0.8 ), 50, false ), s_defaultLabelColor );
 
     s_defaultStyle[GeoDataFeature::AirPort]
-        = new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/airport.png" ) ),
-              QFont( defaultFamily, defaultSize, 50, false ), s_defaultLabelColor );
+	= new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/airport.png" ) ),
+	      QFont( defaultFamily, defaultSize, 50, false ), s_defaultLabelColor );
 
     s_defaultStyle[GeoDataFeature::Observatory]
-        = new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/observatory.png" ) ),
-              QFont( defaultFamily, defaultSize, 50, false ), s_defaultLabelColor );
+	= new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/observatory.png" ) ),
+	      QFont( defaultFamily, defaultSize, 50, false ), s_defaultLabelColor );
 
     s_defaultStyle[GeoDataFeature::Wikipedia]
-        = new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/wikipedia.png" ) ),
-              QFont( defaultFamily, defaultSize, 50, false ), s_defaultLabelColor );
+	= new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/wikipedia.png" ) ),
+	      QFont( defaultFamily, defaultSize, 50, false ), s_defaultLabelColor );
 
     s_defaultStyle[GeoDataFeature::OsmSite]
-        = new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/osm.png" ) ),
-              QFont( defaultFamily, defaultSize, 50, false ), s_defaultLabelColor );
+	= new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/osm.png" ) ),
+	      QFont( defaultFamily, defaultSize, 50, false ), s_defaultLabelColor );
 
     s_defaultStyle[GeoDataFeature::Coordinate]
-        = new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/coordinate.png" ) ),
-              QFont( defaultFamily, defaultSize, 50, false ), s_defaultLabelColor );
+	= new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/coordinate.png" ) ),
+	      QFont( defaultFamily, defaultSize, 50, false ), s_defaultLabelColor );
 
 
     s_defaultStyle[GeoDataFeature::MannedLandingSite]
-        = new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/manned_landing.png" ) ),
-              QFont( defaultFamily, defaultSize, 50, false ), s_defaultLabelColor );
+	= new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/manned_landing.png" ) ),
+	      QFont( defaultFamily, defaultSize, 50, false ), s_defaultLabelColor );
 
     s_defaultStyle[GeoDataFeature::RoboticRover]
-        = new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/robotic_rover.png" ) ),
-              QFont( defaultFamily, defaultSize, 50, false ), s_defaultLabelColor );
+	= new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/robotic_rover.png" ) ),
+	      QFont( defaultFamily, defaultSize, 50, false ), s_defaultLabelColor );
 
     s_defaultStyle[GeoDataFeature::UnmannedSoftLandingSite]
-        = new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/unmanned_soft_landing.png" ) ),
-              QFont( defaultFamily, defaultSize, 50, false ), s_defaultLabelColor );
+	= new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/unmanned_soft_landing.png" ) ),
+	      QFont( defaultFamily, defaultSize, 50, false ), s_defaultLabelColor );
 
     s_defaultStyle[GeoDataFeature::UnmannedHardLandingSite]
-        = new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/unmanned_hard_landing.png" ) ),
-              QFont( defaultFamily, defaultSize, 50, false ), s_defaultLabelColor );
+	= new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/unmanned_hard_landing.png" ) ),
+	      QFont( defaultFamily, defaultSize, 50, false ), s_defaultLabelColor );
 
     s_defaultStyle[GeoDataFeature::Folder]
-        = new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/folder.png" ) ),
-              QFont( defaultFamily, defaultSize, 50, false ), s_defaultLabelColor );
+	= new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/folder.png" ) ),
+	      QFont( defaultFamily, defaultSize, 50, false ), s_defaultLabelColor );
 
     s_defaultStyle[GeoDataFeature::Bookmark]
-        = new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/bookmark.png" ) ),
-              QFont( defaultFamily, defaultSize, 50, false ), s_defaultLabelColor );
+	= new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/bookmark.png" ) ),
+	      QFont( defaultFamily, defaultSize, 50, false ), s_defaultLabelColor );
 
     QFont const osmFont( defaultFamily, defaultSize, 50, false );
 #ifndef SUBSURFACE
@@ -414,8 +414,8 @@ void GeoDataFeaturePrivate::initializeDefaultStyles()
     s_defaultStyle[GeoDataFeature::ReligionShinto]           = GeoDataFeaturePrivate::createOsmPOIStyle( osmFont, "place_of_worship_shinto3.p.16" );
     s_defaultStyle[GeoDataFeature::ReligionSikh]             = GeoDataFeaturePrivate::createOsmPOIStyle( osmFont, "place_of_worship_sikh3.p.16" );
     s_defaultStyle[GeoDataFeature::HighwaySteps]             = GeoDataFeaturePrivate::createStyle( 1, 5, "#F98072", "#F98072", true, true,
-                                                                                   Qt::SolidPattern, Qt::CustomDashLine, Qt::FlatCap, 
-                                                                                   false, QVector< qreal >() << 0.2 << 0.2 );
+										   Qt::SolidPattern, Qt::CustomDashLine, Qt::FlatCap,
+										   false, QVector< qreal >() << 0.2 << 0.2 );
 
     s_defaultStyle[GeoDataFeature::HighwayUnknown]           = GeoDataFeaturePrivate::createHighwayStyle( "highway_unclassified", "#808080" );
     s_defaultStyle[GeoDataFeature::HighwayPath]              = GeoDataFeaturePrivate::createHighwayStyle( "highway_path", "#F98072", 1.0, 2, Qt::DashLine );
@@ -428,19 +428,19 @@ void GeoDataFeaturePrivate::initializeDefaultStyles()
     s_defaultStyle[GeoDataFeature::HighwayPrimary]           = GeoDataFeaturePrivate::createHighwayStyle( "highway_primary", "#EB989A", 3.0, 15 );
     s_defaultStyle[GeoDataFeature::HighwayTrunk]             = GeoDataFeaturePrivate::createHighwayStyle( "highway_trunk", "#A9DAA9", 3.0, 18 );
     s_defaultStyle[GeoDataFeature::HighwayMotorway]          = GeoDataFeaturePrivate::createHighwayStyle( "highway_motorway", "#809BC0", 3.0, 20 );
-    
+
     s_defaultStyle[GeoDataFeature::HighwayTertiaryLink]      = GeoDataFeaturePrivate::createHighwayStyle( "highway_tertiary", "#FEFEB3", 2.0, 9 );
     s_defaultStyle[GeoDataFeature::HighwaySecondaryLink]     = GeoDataFeaturePrivate::createHighwayStyle( "highway_secondary", "#FDD6A4", 2.0, 11 );
     s_defaultStyle[GeoDataFeature::HighwayPrimaryLink]       = GeoDataFeaturePrivate::createHighwayStyle( "highway_primary", "#EB989A", 2.0, 13 );
     s_defaultStyle[GeoDataFeature::HighwayTrunkLink]         = GeoDataFeaturePrivate::createHighwayStyle( "highway_trunk", "#A9DAA9", 3.0, 15 );
     s_defaultStyle[GeoDataFeature::HighwayMotorwayLink]      = GeoDataFeaturePrivate::createHighwayStyle( "highway_motorway", "#809BC0", 3.0, 18 );
-    
+
     s_defaultStyle[GeoDataFeature::NaturalWater]             = GeoDataFeaturePrivate::createStyle( 2, 10, "#B5D0D0", "#B5D0D0",
-                                                                                   true, true, Qt::SolidPattern, Qt::SolidLine, Qt::RoundCap, false );
+										   true, true, Qt::SolidPattern, Qt::SolidLine, Qt::RoundCap, false );
     s_defaultStyle[GeoDataFeature::NaturalWood]              = GeoDataFeaturePrivate::createWayStyle( "#8DC46C", "#8DC46C" );
-    
+
     s_defaultStyle[GeoDataFeature::LeisurePark]              = GeoDataFeaturePrivate::createWayStyle( "#CDF6CA", "#CDF6CA" );
-    
+
     s_defaultStyle[GeoDataFeature::LanduseAllotments]        = GeoDataFeaturePrivate::createWayStyle( "#E4C6AA", "#E4C6AA" );
     s_defaultStyle[GeoDataFeature::LanduseBasin]             = GeoDataFeaturePrivate::createWayStyle( QColor(0xB5, 0xD0, 0xD0, 0x80 ), QColor( 0xB5, 0xD0, 0xD0 ) );
     s_defaultStyle[GeoDataFeature::LanduseCemetery]          = GeoDataFeaturePrivate::createWayStyle( "#A9C9AE", "#A9C9AE" );
@@ -459,7 +459,7 @@ void GeoDataFeaturePrivate::initializeDefaultStyles()
     s_defaultStyle[GeoDataFeature::LanduseReservoir]         = GeoDataFeaturePrivate::createWayStyle( "#B5D0D0", "#B5D0D0" );
     s_defaultStyle[GeoDataFeature::LanduseResidential]       = GeoDataFeaturePrivate::createWayStyle( "#DCDCDC", "#DCDCDC" );
     s_defaultStyle[GeoDataFeature::LanduseRetail]            = GeoDataFeaturePrivate::createWayStyle( Qt::transparent, Qt::transparent, false, false );
-    
+
     s_defaultStyle[GeoDataFeature::RailwayRail]              = GeoDataFeaturePrivate::createStyle( 2, 5, "#989898", "#E1E1E1", true, true, Qt::SolidPattern, Qt::DashLine, Qt::FlatCap, true );
     s_defaultStyle[GeoDataFeature::RailwayTram]              = GeoDataFeaturePrivate::createStyle( 1, 4, "#989898", "#989898", true, true, Qt::SolidPattern, Qt::SolidLine, Qt::RoundCap, false );
     s_defaultStyle[GeoDataFeature::RailwayLightRail]         = GeoDataFeaturePrivate::createWayStyle( Qt::transparent, Qt::transparent, false, false );
@@ -472,11 +472,11 @@ void GeoDataFeaturePrivate::initializeDefaultStyles()
     s_defaultStyle[GeoDataFeature::RailwayFunicular]         = GeoDataFeaturePrivate::createWayStyle( Qt::transparent, Qt::transparent, false, false );
 
     s_defaultStyle[GeoDataFeature::Building]                 = GeoDataFeaturePrivate::createStyle( 1, 0, QColor( 0xBE, 0xAD, 0xAD ), QColor( 0xBE, 0xAD, 0xAD ).darker(),
-                                                                                   true, true, Qt::SolidPattern, Qt::SolidLine, Qt::RoundCap, false );
+										   true, true, Qt::SolidPattern, Qt::SolidLine, Qt::RoundCap, false );
 
     s_defaultStyle[GeoDataFeature::Satellite]
-        = new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/satellite.png" ) ),
-              QFont( defaultFamily, defaultSize, 50, false ), s_defaultLabelColor );
+	= new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/satellite.png" ) ),
+	      QFont( defaultFamily, defaultSize, 50, false ), s_defaultLabelColor );
 
 #endif
 
@@ -640,19 +640,19 @@ void GeoDataFeature::setStyleUrl( const QString &value)
     GeoDataObject *object = parent();
     bool found = false;
     while ( object && !found ) {
-        if( object->nodeType() == GeoDataTypes::GeoDataDocumentType ) {
-            GeoDataDocument *doc = static_cast<GeoDataDocument*> ( object );
-            GeoDataStyleMap &styleMap = doc->styleMap( styleUrl );
-            if( !styleMap.value( QString( "normal" ) ).isEmpty() ) {
-                styleUrl = styleMap.value( QString( "normal" ) );
-                styleUrl.remove('#');
-            }
-            // Not calling setStyle here because we don't want
-            // re-parenting of the style
-            d->m_style = &doc->style( styleUrl );
-            found = true;
-        }
-        object = object->parent();
+	if( object->nodeType() == GeoDataTypes::GeoDataDocumentType ) {
+	    GeoDataDocument *doc = static_cast<GeoDataDocument*> ( object );
+	    GeoDataStyleMap &styleMap = doc->styleMap( styleUrl );
+	    if( !styleMap.value( QString( "normal" ) ).isEmpty() ) {
+		styleUrl = styleMap.value( QString( "normal" ) );
+		styleUrl.remove('#');
+	    }
+	    // Not calling setStyle here because we don't want
+	    // re-parenting of the style
+	    d->m_style = &doc->style( styleUrl );
+	    found = true;
+	}
+	object = object->parent();
     }
 }
 
@@ -670,7 +670,7 @@ void GeoDataFeature::setVisible( bool value )
 bool GeoDataFeature::isGloballyVisible() const
 {
     if ( parent() == 0 ) {
-        return d->m_visible;
+	return d->m_visible;
     }
     GeoDataContainer *container = static_cast<GeoDataContainer*>( parent() );
     return d->m_visible && container->isGloballyVisible();
@@ -714,21 +714,21 @@ void GeoDataFeature::setTimeStamp( const GeoDataTimeStamp &timeStamp )
 const GeoDataStyle* GeoDataFeature::style() const
 {
     if ( d->m_style != 0 ) {
-        return d->m_style;
+	return d->m_style;
     } else
     {
-        if ( GeoDataFeaturePrivate::s_defaultStyleInitialized == false )
-            GeoDataFeaturePrivate::initializeDefaultStyles();
+	if ( GeoDataFeaturePrivate::s_defaultStyleInitialized == false )
+	    GeoDataFeaturePrivate::initializeDefaultStyles();
 
-        if ( d->m_visualCategory != None
-             && GeoDataFeaturePrivate::s_defaultStyle[ d->m_visualCategory] )
-        {
-            return GeoDataFeaturePrivate::s_defaultStyle[ d->m_visualCategory ];
-        }
-        else
-        {
-            return GeoDataFeaturePrivate::s_defaultStyle[ GeoDataFeature::Default];
-        }
+	if ( d->m_visualCategory != None
+	     && GeoDataFeaturePrivate::s_defaultStyle[ d->m_visualCategory] )
+	{
+	    return GeoDataFeaturePrivate::s_defaultStyle[ d->m_visualCategory ];
+	}
+	else
+	{
+	    return GeoDataFeaturePrivate::s_defaultStyle[ GeoDataFeature::Default];
+	}
     }
 }
 
@@ -741,7 +741,7 @@ void GeoDataFeature::setStyle( GeoDataStyle* style )
 {
     detach();
     if (style)
-        style->setParent( this );
+	style->setParent( this );
     d->m_style = style;
 }
 
@@ -835,16 +835,16 @@ void GeoDataFeature::detach()
 #else
     if(d->ref.load() == 1)
 #endif
-        return;
+	return;
 
     GeoDataFeaturePrivate* new_d = d->copy();
 
     if (!d->ref.deref()) {
-        delete d;
+	delete d;
     }
 
     d = new_d;
-    
+
     d->ref.ref();
 }
 
@@ -882,7 +882,7 @@ void GeoDataFeature::unpack( QDataStream& stream )
 GeoDataFeature::GeoDataVisualCategory GeoDataFeature::OsmVisualCategory(const QString &keyValue )
 {
     if( GeoDataFeaturePrivate::s_visualCategories.isEmpty() ) {
-        GeoDataFeaturePrivate::initializeOsmVisualCategories();
+	GeoDataFeaturePrivate::initializeOsmVisualCategories();
     }
     return GeoDataFeaturePrivate::s_visualCategories.value( keyValue );
 }

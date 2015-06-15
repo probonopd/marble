@@ -32,6 +32,7 @@ class SearchRunnerManager;
 class ReverseGeocodingRunnerManager;
 class RoutingRunnerManager;
 
+#ifndef SUBSURFACE
 /** A RunnerTask that executes a placemark search */
 class SearchTask : public QObject, public QRunnable
 {
@@ -53,6 +54,7 @@ private:
     QString m_searchTerm;
     GeoDataLatLonBox m_preferredBbox;
 };
+#endif
 
 /** A RunnerTask that executes reverse geocoding */
 class ReverseGeocodingTask : public QObject, public QRunnable

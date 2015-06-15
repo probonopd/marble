@@ -89,9 +89,9 @@ set(marblewidget_SRCS
     MarbleWebView.cpp
     MarbleModel.cpp
     MarbleMap.cpp
-    MarbleControlBox.cpp
+    # MarbleControlBox.cpp
     MarbleColors.cpp
-    NavigationWidget.cpp
+    # NavigationWidget.cpp
     MapViewWidget.cpp
     FileViewWidget.cpp
     TourWidget.cpp
@@ -112,8 +112,8 @@ set(marblewidget_SRCS
     SerialTrack.cpp
     SoundTrack.cpp
     AnimatedUpdateTrack.cpp
-    CurrentLocationWidget.cpp
-    MarbleNavigator.cpp
+    # CurrentLocationWidget.cpp
+    # MarbleNavigator.cpp
     MarbleLegendBrowser.cpp
     MarbleAboutDialog.cpp
     MarbleInputHandler.cpp
@@ -199,7 +199,7 @@ set(marblewidget_SRCS
     MovieCapture.cpp
     MovieCaptureDialog.cpp
     TourCaptureDialog.cpp
-    EditPlacemarkDialog.cpp
+    # EditPlacemarkDialog.cpp
     AddLinkDialog.cpp
 
     AbstractDataPlugin.cpp
@@ -230,7 +230,7 @@ set(marblewidget_SRCS
     MathHelper.cpp
 
     LatLonEdit.cpp
-    PlacemarkEditHeader.cpp
+    # PlacemarkEditHeader.cpp
 
     MapThemeSortFilterProxyModel.cpp
 
@@ -261,36 +261,36 @@ set(marblewidget_SRCS
     ParsingRunnerManager.cpp
     ReverseGeocodingRunnerManager.cpp
     #  RoutingRunnerManager.cpp
-    SearchRunnerManager.cpp
+    #  SearchRunnerManager.cpp
 
-    AutoNavigation.cpp
+    # AutoNavigation.cpp
 
-    SearchRunnerPlugin.cpp
+    #  SearchRunnerPlugin.cpp
     ReverseGeocodingRunnerPlugin.cpp
     #  RoutingRunnerPlugin.cpp
     ParseRunnerPlugin.cpp
-    SearchRunner.cpp
+    #  SearchRunner.cpp
     ReverseGeocodingRunner.cpp
     #  RoutingRunner.cpp
     ParsingRunner.cpp
     RunnerTask.cpp
 
-    BookmarkManager.cpp
-    EditBookmarkDialog.cpp
-    BookmarkManagerDialog.cpp
-    NewBookmarkFolderDialog.cpp
+    # BookmarkManager.cpp
+    # EditBookmarkDialog.cpp
+    # BookmarkManagerDialog.cpp
+    # NewBookmarkFolderDialog.cpp
 
     PrintOptionsWidget.cpp
-    ExternalEditorDialog.cpp
-    GoToDialog.cpp
+    # ExternalEditorDialog.cpp
+    # GoToDialog.cpp
 
     MapWizard.cpp
     MapThemeDownloadDialog.cpp
     GeoGraphicsScene.cpp
     ElevationModel.cpp
     MarbleLineEdit.cpp
-    SearchInputWidget.cpp
-    SearchWidget.cpp
+    # SearchInputWidget.cpp
+    # SearchWidget.cpp
     kineticmodel.cpp
     NewstuffModel.cpp
     
@@ -308,16 +308,16 @@ set(marblewidget_SRCS
 
 set (marblewidget_UI
     LatLonBoxWidget.ui
-    NavigationWidget.ui
+    # NavigationWidget.ui
     LegendWidget.ui
     MapViewWidget.ui
-    CurrentLocationWidget.ui
+    # CurrentLocationWidget.ui
     FileViewWidget.ui
     TourWidget.ui
-    MarbleNavigator.ui
+    # MarbleNavigator.ui
     MarbleCacheSettingsWidget.ui
     MarbleViewSettingsWidget.ui
-    MarbleNavigationSettingsWidget.ui
+    # MarbleNavigationSettingsWidget.ui
     TimeControlWidget.ui
     MarbleTimeSettingsWidget.ui
     MarblePluginSettingsWidget.ui
@@ -326,15 +326,15 @@ set (marblewidget_UI
     MarbleAboutDialog.ui
     SunControlWidget.ui
     LatLonEdit.ui
-    PlacemarkEditHeader.ui
+    # PlacemarkEditHeader.ui
     routing/RoutingWidget.ui
     DataMigrationWidget.ui
-    EditBookmarkDialog.ui
-    BookmarkManagerDialog.ui
-    NewBookmarkFolderDialog.ui
+    # EditBookmarkDialog.ui
+    # BookmarkManagerDialog.ui
+    # NewBookmarkFolderDialog.ui
     PrintOptions.ui
     ExternalEditor.ui
-    GoToDialog.ui
+    # GoToDialog.ui
     routing/RoutingSettingsWidget.ui
     routing/RoutingProfileSettingsDialog.ui
     MapWizard.ui
@@ -344,7 +344,7 @@ set (marblewidget_UI
     MarbleCloudSyncSettingsWidget.ui
     MovieCaptureDialog.ui
     TourCaptureDialog.ui
-    EditPlacemarkDialog.ui
+    # EditPlacemarkDialog.ui
     AddLinkDialog.ui
     ElevationWidget.ui
 )
@@ -443,8 +443,8 @@ endif()
 install( FILES
     ${graphicsview_HDRS}
     ${marblequick_HDRS}
-    AutoNavigation.h
-    BookmarkManager.h
+    # AutoNavigation.h
+    # BookmarkManager.h
     DownloadRegion.h
     DownloadRegionDialog.h
     LatLonBoxWidget.h
@@ -452,8 +452,8 @@ install( FILES
     MarbleWebView.h
     MarbleMap.h
     MarbleModel.h
-    MarbleControlBox.h
-    NavigationWidget.h
+    # MarbleControlBox.h
+    # NavigationWidget.h
     MapViewWidget.h
     LegendWidget.h
     FileViewWidget.h
@@ -465,8 +465,8 @@ install( FILES
     RemoveItemEditWidget.h
     TourItemDelegate.h
     TourPlayback.h
-    CurrentLocationWidget.h
-    MarbleNavigator.h
+    # CurrentLocationWidget.h
+    # MarbleNavigator.h
     AbstractFloatItem.h
     MapThemeManager.h
     MarbleAboutDialog.h
@@ -551,12 +551,12 @@ install( FILES
     ParsingRunnerManager.h
     ReverseGeocodingRunnerManager.h
     RoutingRunnerManager.h
-    SearchRunnerManager.h
+    #  SearchRunnerManager.h
     ParsingRunner.h
-    SearchRunner.h
+    #  SearchRunner.h
     ReverseGeocodingRunner.h
     RoutingRunner.h
-    SearchRunnerPlugin.h
+    #  SearchRunnerPlugin.h
     ReverseGeocodingRunnerPlugin.h
     RoutingRunnerPlugin.h
     ParseRunnerPlugin.h
@@ -566,7 +566,7 @@ install( FILES
     marble_export.h
     Planet.h
     PlanetFactory.h
-    EditPlacemarkDialog.h
+    # EditPlacemarkDialog.h
     AddLinkDialog.h
 
     AbstractDataPlugin.h
@@ -575,7 +575,7 @@ install( FILES
     AbstractWorkerThread.h
 
     LatLonEdit.h
-    PlacemarkEditHeader.h
+    # PlacemarkEditHeader.h
     MapWizard.h
     MapThemeDownloadDialog.h
     ElevationModel.h

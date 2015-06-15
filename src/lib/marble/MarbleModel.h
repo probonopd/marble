@@ -63,8 +63,10 @@ class GeoDataStyle;
 class GeoDataTreeModel;
 class GeoSceneDocument;
 class Planet;
+#ifndef SUBSURFACE
 class RoutingManager;
 class BookmarkManager;
+#endif
 class FileManager;
 class ElevationModel;
 
@@ -245,8 +247,10 @@ class MARBLE_EXPORT MarbleModel : public QObject
      */
     const Planet *planet() const;
 
+#ifndef SUBSURFACE
     RoutingManager* routingManager();
     const RoutingManager* routingManager() const;
+#endif
 
     void setClockDateTime( const QDateTime& datetime );
 
@@ -260,10 +264,12 @@ class MARBLE_EXPORT MarbleModel : public QObject
 
     int clockTimezone() const;
 
+#ifndef SUBSURFACE
     /**
      * return instance of BookmarkManager
     */
     BookmarkManager *bookmarkManager();
+#endif
 
     QTextDocument * legend();
 

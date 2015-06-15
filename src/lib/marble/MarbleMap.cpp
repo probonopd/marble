@@ -181,7 +181,6 @@ MarbleMapPrivate::MarbleMapPrivate( MarbleMap *parent, MarbleModel *model ) :
 
     QObject::connect( &m_placemarkLayer, SIGNAL(repaintNeeded()),
                       parent, SIGNAL(repaintNeeded()));
-
     QObject::connect ( &m_layerManager, SIGNAL(pluginSettingsChanged()),
                        parent,        SIGNAL(pluginSettingsChanged()) );
     QObject::connect ( &m_layerManager, SIGNAL(repaintNeeded(QRegion)),
@@ -205,7 +204,6 @@ MarbleMapPrivate::MarbleMapPrivate( MarbleMap *parent, MarbleModel *model ) :
      */
     QObject::connect( parent, SIGNAL(highlightedPlacemarksChanged(qreal,qreal,GeoDataCoordinates::Unit)),
                       &m_geometryLayer, SLOT(handleHighlight(qreal,qreal,GeoDataCoordinates::Unit)) );
-
     QObject::connect( &m_textureLayer, SIGNAL(tileLevelChanged(int)),
                       parent, SIGNAL(tileLevelChanged(int)) );
     QObject::connect( &m_textureLayer, SIGNAL(repaintNeeded()),
@@ -218,9 +216,11 @@ MarbleMapPrivate::MarbleMapPrivate( MarbleMap *parent, MarbleModel *model ) :
 void MarbleMapPrivate::updateProperty( const QString &name, bool show )
 {
     // earth
+
     if ( name == "places" ) {
         m_placemarkLayer.setShowPlaces( show );
-    } else if ( name == "cities" ) {
+    }
+    else if ( name == "cities" ) {
         m_placemarkLayer.setShowCities( show );
     } else if ( name == "terrain" ) {
         m_placemarkLayer.setShowTerrain( show );
@@ -240,7 +240,6 @@ void MarbleMapPrivate::updateProperty( const QString &name, bool show )
     else if ( name == "relief" ) {
         m_textureLayer.setShowRelief( show );
     }
-
     foreach( RenderPlugin *renderPlugin, m_layerManager.renderPlugins() ) {
         if ( name == renderPlugin->nameId() ) {
             if ( renderPlugin->visible() == show ) {
@@ -590,11 +589,13 @@ bool MarbleMap::showCrosshairs() const
 
 bool MarbleMap::showPlaces() const
 {
+    return false;
     return propertyValue( "places" );
 }
 
 bool MarbleMap::showCities() const
 {
+    return false;
     return propertyValue( "cities" );
 }
 
@@ -605,6 +606,7 @@ bool MarbleMap::showTerrain() const
 
 bool MarbleMap::showOtherPlaces() const
 {
+    return false;
     return propertyValue( "otherplaces" );
 }
 
@@ -977,7 +979,6 @@ void MarbleMapPrivate::updateMapTheme()
     m_placemarkLayer.setShowLandingSites( q->propertyValue("landingsites") );
     m_placemarkLayer.setShowCraters( q->propertyValue("craters") );
     m_placemarkLayer.setShowMaria( q->propertyValue("maria") );
-
     GeoDataFeature::setDefaultLabelColor( m_model->mapTheme()->map()->labelColor() );
     m_placemarkLayer.requestStyleReset();
 
@@ -1189,7 +1190,7 @@ AngleUnit MarbleMap::defaultAngleUnit() const
     if ( GeoDataCoordinates::defaultNotation() == GeoDataCoordinates::Decimal ) {
         return DecimalDegree;
     } else if ( GeoDataCoordinates::defaultNotation() == GeoDataCoordinates::UTM ) {
-    	return UTM;
+        return UTM;
     }
 
     return DMSDegree;
@@ -1216,7 +1217,9 @@ QFont MarbleMap::defaultFont() const
 void MarbleMap::setDefaultFont( const QFont& font )
 {
     GeoDataFeature::setDefaultFont( font );
+#ifndef SUBSURFACE
     d->m_placemarkLayer.requestStyleReset();
+#endif
 }
 
 QList<RenderPlugin *> MarbleMap::renderPlugins() const

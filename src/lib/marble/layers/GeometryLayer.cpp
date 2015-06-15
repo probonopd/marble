@@ -409,7 +409,6 @@ void GeometryLayer::addPlacemarks( QModelIndex parent, int first, int last )
         d->createGraphicsItems( object );
     }
     emit repaintNeeded();
-
 }
 
 void GeometryLayer::removePlacemarks( QModelIndex parent, int first, int last )
@@ -429,7 +428,6 @@ void GeometryLayer::removePlacemarks( QModelIndex parent, int first, int last )
     if( isRepaintNeeded ) {
         emit repaintNeeded();
     }
-
 }
 
 void GeometryLayer::resetCacheData()

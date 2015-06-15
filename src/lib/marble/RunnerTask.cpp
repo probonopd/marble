@@ -14,8 +14,10 @@
 #include "MarbleDebug.h"
 #include "ParsingRunner.h"
 #include "ParsingRunnerManager.h"
+#ifndef SUBSURFACE
 #include "SearchRunner.h"
 #include "SearchRunnerManager.h"
+#endif
 #include "ReverseGeocodingRunner.h"
 #include "ReverseGeocodingRunnerManager.h"
 #ifndef SUBSURFACE
@@ -29,6 +31,7 @@
 namespace Marble
 {
 
+#ifndef SUBSURFACE
 SearchTask::SearchTask( SearchRunner *runner, SearchRunnerManager *manager, const MarbleModel *model, const QString &searchTerm, const GeoDataLatLonBox &preferred ) :
     QObject(),
     m_runner( runner ),
@@ -47,6 +50,7 @@ void SearchTask::run()
 
     emit finished( this );
 }
+#endif
 
 ReverseGeocodingTask::ReverseGeocodingTask( ReverseGeocodingRunner *runner, ReverseGeocodingRunnerManager *manager, const MarbleModel *model, const GeoDataCoordinates &coordinates ) :
     QObject(),

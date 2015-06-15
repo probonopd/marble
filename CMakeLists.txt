@@ -7,7 +7,8 @@ SET(CMAKE_COLOR_MAKEFILE ON)
 
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
-SET(CMAKE_BUILD_TYPE RELEASE)
+#SET(CMAKE_BUILD_TYPE RELEASE)
+SET(CMAKE_BUILD_TYPE Debug)
 
 ####################################################
 # Where to look first for cmake modules,

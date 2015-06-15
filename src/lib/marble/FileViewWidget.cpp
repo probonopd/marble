@@ -27,7 +27,9 @@
 #include "MarbleModel.h"
 #include "MarbleWidget.h"
 #include "TreeViewDecoratorModel.h"
+#ifndef SUBSURFACE
 #include "EditPlacemarkDialog.h"
+#endif
 
 using namespace Marble;
 // Ui
@@ -138,6 +140,7 @@ void FileViewWidgetPrivate::setFileManager( FileManager *manager )
 
 void FileViewWidgetPrivate::saveFile()
 {
+#ifndef SUBSURFACE
     QModelIndex index = m_fileViewUi.m_treeView->selectionModel()->selectedRows().first();
     GeoDataObject *object
         = index.model()->data( index, MarblePlacemarkModel::ObjectPointerRole ).value<GeoDataObject*>();
@@ -145,10 +148,12 @@ void FileViewWidgetPrivate::saveFile()
     if ( document && !document->fileName().isEmpty() ) {
         m_fileManager->saveFile( QFileDialog::getSaveFileName( q, "Select filename for KML document" ), document );
     }
+#endif
 }
 
 void FileViewWidgetPrivate::closeFile()
 {
+#ifndef SUBSURFACE
     QModelIndex index = m_fileViewUi.m_treeView->selectionModel()->selectedRows().first();
     GeoDataObject *object
         = index.model()->data( index, MarblePlacemarkModel::ObjectPointerRole ).value<GeoDataObject*>();
@@ -156,10 +161,12 @@ void FileViewWidgetPrivate::closeFile()
     if ( document ) {
         m_fileManager->closeFile( document );
     }
+#endif
 }
 
 void FileViewWidgetPrivate::enableFileViewActions()
 {
+#ifndef SUBSURFACE
     bool isUserDocument = false;
     if ( !m_fileViewUi.m_treeView->selectionModel()->selectedRows().isEmpty() ) {
         QModelIndex index = m_fileViewUi.m_treeView->selectionModel()->selectedRows().first();
@@ -172,10 +179,12 @@ void FileViewWidgetPrivate::enableFileViewActions()
     }
     m_fileViewUi.m_saveButton->setEnabled( isUserDocument );
     m_fileViewUi.m_closeButton->setEnabled( isUserDocument );
+#endif
 }
 
 void FileViewWidgetPrivate::contextMenu(const QPoint &pt)
 {
+#ifndef SUBSURFACE
     const QModelIndex index = m_fileViewUi.m_treeView->indexAt(pt);
     const QAbstractItemModel *model = m_fileViewUi.m_treeView->model();
     if (index.isValid()) {
@@ -186,10 +195,12 @@ void FileViewWidgetPrivate::contextMenu(const QPoint &pt)
             m_contextMenu->popup(m_fileViewUi.m_treeView->mapToGlobal(pt));
         }
     }
+#endif
 }
 
 void FileViewWidgetPrivate::showPlacemarkDialog()
 {
+#ifndef SUBSURFACE
     const QModelIndex index = m_fileViewUi.m_treeView->currentIndex();
     const QAbstractItemModel *model = m_fileViewUi.m_treeView->model();
 
@@ -201,10 +212,12 @@ void FileViewWidgetPrivate::showPlacemarkDialog()
         dialog->exec();
         delete dialog;
     }
+#endif
 }
 
 void FileViewWidget::mapCenterOnTreeViewModel( const QModelIndex &index )
 {
+#ifndef SUBSURFACE
     if( !index.isValid() ) {
         return;
     }
@@ -220,6 +233,7 @@ void FileViewWidget::mapCenterOnTreeViewModel( const QModelIndex &index )
         GeoDataLatLonAltBox box = dynamic_cast<GeoDataContainer*>( object )->latLonAltBox();
         emit centerOn( box, true );
     }
+#endif
 }
 
 }
