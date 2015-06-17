@@ -343,8 +343,8 @@ QWidget* TourItemDelegate::createEditor(QWidget* parent, const QStyleOptionViewI
         return widget;
 
     }
-    return 0;
 #endif
+    return 0;
 }
 
 bool TourItemDelegate::editable() const
