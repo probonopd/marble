@@ -316,7 +316,7 @@ void GeoDataFeaturePrivate::initializeDefaultStyles()
     s_defaultStyle[GeoDataFeature::AirPort]
 	= new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/airport.png" ) ),
 	      QFont( defaultFamily, defaultSize, 50, false ), s_defaultLabelColor );
-
+#ifndef SUBSURFACE
     s_defaultStyle[GeoDataFeature::Observatory]
 	= new GeoDataStyle( QImage( MarbleDirs::path( "bitmaps/observatory.png" ) ),
 	      QFont( defaultFamily, defaultSize, 50, false ), s_defaultLabelColor );
@@ -359,7 +359,6 @@ void GeoDataFeaturePrivate::initializeDefaultStyles()
 	      QFont( defaultFamily, defaultSize, 50, false ), s_defaultLabelColor );
 
     QFont const osmFont( defaultFamily, defaultSize, 50, false );
-#ifndef SUBSURFACE
     s_defaultStyle[GeoDataFeature::AccomodationCamping]      = GeoDataFeaturePrivate::createOsmPOIStyle( osmFont, "accommodation_camping.p.16" );
     s_defaultStyle[GeoDataFeature::AccomodationHostel]       = GeoDataFeaturePrivate::createOsmPOIStyle( osmFont, "accommodation_hostel.p.16" );
     s_defaultStyle[GeoDataFeature::AccomodationHotel]        = GeoDataFeaturePrivate::createOsmPOIStyle( osmFont, "accommodation_hotel2.p.16" );
