@@ -312,8 +312,13 @@ void ScanlineTextureMapperContext::pixelValueApprox( const qreal lon, const qrea
             for ( int j = 1; j < n; ++j ) {
                 iPosXf += itStepLon;
                 iPosYf += itStepLat;
-                *scanLine = m_tile->pixel( ( ( iPosXf >> 7 ) + m_vTileStartX ) >> m_deltaLevel,
-                                           ( ( iPosYf >> 7 ) + m_vTileStartY ) >> m_deltaLevel );
+                if ( m_tile ) {
+                    *scanLine = m_tile->pixel( ( ( iPosXf >> 7 ) + m_vTileStartX ) >> m_deltaLevel,
+                                               ( ( iPosYf >> 7 ) + m_vTileStartY ) >> m_deltaLevel );
+                }
+                else {
+                    *scanLine = 0;
+                }
                 ++scanLine;
             }
         }        
